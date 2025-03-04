@@ -1,0 +1,122 @@
+.csec{
+    padding: 3% 14%;
+}
+
+.csec h2{
+    color: #000000;
+    font-weight: 700;
+}
+
+.csec p{
+    color: #9F9F9F;
+}
+
+.ccont{
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    padding: 5%;
+}
+
+.infocont{
+    display: block;
+}
+
+.infoincont{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10%;
+    text-align: start;
+}
+
+.infocont i{
+    color: #000000;
+}
+
+.cinfo{
+    width: 80%;
+}   
+
+.cinfo h6{
+    color: #000000;
+    font-weight: 500;
+    font-size: larger;
+}
+
+.cinfo p{
+    color: #000000;
+    font-weight: 400;
+}
+
+.cformcont{
+    width: 50%;
+}
+
+.cformcont form{
+    display: block;
+    text-align: start;
+}
+
+.cformcont form label{
+    width: 100%;
+    color: #000000;
+    font-weight: 500;
+    font-size: smaller;
+}
+
+.cformcont form input{
+    width: 100%;
+    margin: 3% 0;
+    padding: 2.5% 3%;
+    border-radius: 10px;
+    border: 1px solid #9F9F9F;
+    color: #9F9F9F;
+}
+
+.cformcont form button{
+    border: 1px solid #000000;
+    color: #000000;
+    background-color: transparent;
+    padding:1% 10%;
+    font-weight: 400;
+    border-radius: 10px;
+    margin-top: 3%;
+}
+
+@media ( max-width:1024px){
+    
+    
+}
+
+@media (max-width:768px){
+    
+}
+
+@media (max-width:480px){
+    
+    .csec{
+        padding: 3% 14%;
+    }
+    
+    .ccont{
+        display: block;
+    }
+    
+    .infoincont{
+        text-align: center;
+        display: block;
+    }
+
+    .cinfo{
+        width: 100%;
+    }   
+    
+    .cformcont{
+        width: 100%;
+    }
+    
+    .cformcont form{
+        text-align: center;
+    }
+    
+}

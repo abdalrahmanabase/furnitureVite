@@ -1,0 +1,19 @@
+
+.Sheader{
+    background-image: url("../imgs/Rectangle\ 1.png") ;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.shead{
+    display: block;
+}
+
+.shead p{
+    font-weight: 500;
+}

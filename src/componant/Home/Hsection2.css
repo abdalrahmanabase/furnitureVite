@@ -1,0 +1,101 @@
+.hsec2{
+    background-color: #FFFFFF;
+    display: block;
+    padding: 6%;
+}
+
+.hsec2 h2{
+    color: #000000;
+}
+
+.hsec2 p{
+    color: #9F9F9F;
+}
+
+.hsec2 button{
+    border: none;
+    margin-top: 5%;
+    font-size: large;
+    font-weight: 500;
+    color: #000000;
+    background-color: transparent;
+    border-bottom: 2px solid #333;
+    padding: 2%;
+}
+
+.sec2cont{
+    display: flex;
+    align-items: center;
+}
+
+.proconth{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 2%;
+    width: 100%;
+}
+
+.product{
+    display: block;
+    text-align: center;
+    width: 100%;
+    transition: transform 0.3s ease;
+}
+
+.product :hover {
+    transform: scale(1.1); 
+}
+
+.product h3{
+    color: #000000;
+}
+
+.product p{
+    color: #000000;
+}
+
+.product img{
+    width:100%
+}
+
+@media ( max-width:1024px){
+    
+    .sec2cont{
+        display: flex;
+        justify-content: space-evenly;
+    }
+
+    .proconth{
+        grid-template-columns: repeat(2,1fr);
+    }
+}
+
+@media (max-width:768px){
+    .sec2cont{
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        flex-wrap: nowrap;
+    }
+
+    .proconth{
+        grid-template-columns: repeat(2,1fr);
+    }
+}
+
+@media (max-width:480px){
+    
+    .sec2cont{
+        display: block;
+    }
+    
+    .proconth{
+        display: block;
+    }
+
+    .product{
+        display: block;
+        text-align: center;
+    }
+    
+}

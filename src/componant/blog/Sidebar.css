@@ -1,0 +1,39 @@
+
+.sidebar {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.search-box {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.search-box input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.categories, .recent-posts {
+    margin-bottom: 20px;
+}
+
+.categories h3, .recent-posts h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.categories ul, .recent-posts ul {
+    list-style: none;
+    padding: 0;
+}
+
+.categories li, .recent-posts li {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 5px;
+}

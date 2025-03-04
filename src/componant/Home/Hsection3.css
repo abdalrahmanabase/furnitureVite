@@ -1,0 +1,57 @@
+.hsec3{
+    background-color: #FFF9E5;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    padding: 0% 4%;
+}
+
+.hsec3 img{
+    width: 75%;
+}
+
+.sec3write{
+    text-align: center;
+}
+
+.sec3write h2{
+    color: #000000;
+    font-size: 48px;
+    font-weight: 700;
+}
+
+.sec3write h4{
+    color: #000000;
+    font-weight: 500;
+}
+
+.sec3write button{
+    margin-top: 5%;
+    font-size: large;
+    font-weight: 500;
+    color: #000000;
+    background-color: transparent;
+    border: 1px solid #000000;
+    padding: 2% 10%;
+}
+
+@media ( max-width:1024px){
+
+}
+
+@media (max-width:767px){
+    
+}
+
+@media (max-width:480px){
+    .hsec3{
+        display: block;
+        padding: 6% 0;
+    }
+    
+    .hsec3 img{
+        width: 90%;
+    }
+    
+}

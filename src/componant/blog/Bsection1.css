@@ -1,0 +1,172 @@
+.blogmain{
+    padding: 5% 0 5% 5%;
+    display: flex;
+    text-align: center;
+    justify-content: space-between;
+}
+
+.blogposts{
+    width: 65%;
+}
+
+.blogpost{
+    text-align: start;
+    margin: 4%;
+}
+
+.blogpost img{
+    width: 100%;
+}
+
+.blog1{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 40%;
+}
+
+.blog1 span{
+    color: #9F9F9F;
+}
+
+.blog1 i{
+    color: #9F9F9F;
+    margin-inline-end: 5px;
+}
+
+.blogdescription{
+    margin: 3% 0;
+}
+
+.blogdescription h2{
+    color: #000000;
+    font-weight: 500;
+}
+
+.blogdescription p{
+    color: #9F9F9F;
+    font-weight: 400;
+}
+
+.blogpost button{
+    border: none;
+    font-size: large;
+    font-weight: 500;
+    color: #000000;
+    background-color: transparent;
+    border-bottom: 2px solid #333;
+    padding: 1%;
+}
+
+/* Sidebar.css */
+
+.sidebar {
+    width: 25%;
+    padding: 3%;
+}
+
+.search-box {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 5%;
+}
+
+.search-box input {
+    flex: 1;
+    border: 1px solid #9F9F9F;
+    border-radius: 10px;
+}
+
+.search-box button {
+    border: none;
+    background-color: transparent;
+}
+
+.categories, .recent-posts {
+    margin-bottom: 20%;
+    padding: 0 0 0 8%;
+    text-align: start;
+}
+
+.categories h3, .recent-posts h3 {
+    font-size: x-large;
+    font-weight:500 ;
+    color: #000000;
+    margin-bottom: 10px;
+}
+
+.categories ul {
+    padding: 0;
+}
+.categories li {
+    font-size: smaller;
+    color: #9F9F9F;
+    margin-bottom: 8%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.recent-postsdivs{
+    display: flex;
+    margin-bottom: 5%;
+}
+
+.recent-postsdivs img{
+    width: 80px;
+    margin-inline-end: 4%;
+}
+
+.recent-postsdivs div p{
+    color: #000000;
+    font-weight: 400;
+}
+
+.recent-postsdivs div span{
+    color: #9F9F9F;
+}
+
+@media ( max-width:1024px){
+    .blog1{
+        width: 50%;
+    }
+
+    .sidebar {
+        width: 30%;
+    }
+
+    .recent-postsdivs img{
+        width: 60px;
+    }
+}
+
+@media (max-width:768px){
+    .blog1{
+        width: 60%;
+    }
+
+    .search-box i{
+        display: none;
+    }
+
+    .search-box button {
+        display: none;
+    }
+}
+
+@media (max-width:480px){
+    .blogmain{
+        padding: 5% ;
+    }
+
+    .blogposts{
+        width: 100%;
+    }
+
+    .blog1{
+        width: 70%;
+    }
+
+    .sidebar{
+        display: none;
+    }
+}

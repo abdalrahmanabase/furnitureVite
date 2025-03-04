@@ -1,0 +1,79 @@
+/* checkoutdiv */
+.cksecs{
+    display: flex;
+    justify-content: space-around;
+    padding: 5% 0;
+}
+
+.cksec1{
+    width: 45%;
+    display: block;
+    text-align: start;
+    padding: 0 5%;
+}
+
+.cksec1 form{
+    display: flex;
+    flex-direction: column;
+    gap: 2%;
+}
+
+.cksec1 form h2{
+    font-size: xx-large;
+    margin-bottom: 6%;
+    font-weight: 600;
+}
+
+.cksec1 div{
+    display: block;
+}
+
+.cksec1 label{
+    font-weight: 500;
+    color: #000000;
+    margin-bottom: 3%;
+}
+
+.cksec1 input{
+    padding: 3%;
+    border: 1px solid #9F9F9F;
+    border-radius: 10px;
+    width: 100%;
+    background-color: transparent;
+    margin-bottom: 4%;
+}
+
+@media (max-width: 1024px) {
+    
+    .cksecs {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .cksec1 {
+        width: 70%;
+        padding: 0;
+    }
+
+}
+
+@media (max-width: 768px) {
+    .cksec1 {
+        width: 80%;
+    }
+
+    .cksec1 input {
+        padding: 2.5%;
+    }
+}
+
+@media (max-width: 480px) {
+    .cksec1 {
+        width: 95%;
+        padding: 0;
+    }
+
+    .cksec1 input {
+        padding: 2%;
+    }
+}

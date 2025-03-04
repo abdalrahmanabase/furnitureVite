@@ -1,0 +1,35 @@
+.hsec5{
+    background-image: url("../imgs/Group\ 43.png");
+    width: 100%;
+    height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sec5cont{
+    display: block;
+}
+
+.hsec5 h2{
+    color: #000000;
+    font-weight: 700;
+    font-size: 60px;
+}
+
+.hsec5 p{
+    color: #000000;
+
+}
+
+.hsec5 button{
+    background-color: #FAF4F4;
+    margin-top: 5%;
+    font-size: large;
+    font-weight: 500;
+    color: #000000;
+    border: none;
+    border-radius: 20px;
+    padding: 2% 10%;
+    box-shadow: 0 20px 20px 0 #0000001A;
+}

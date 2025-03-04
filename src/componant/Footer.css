@@ -1,0 +1,138 @@
+.footer {
+    display: block;
+    background-color: #FFFFFF;
+    padding: 40px;
+    font-family: Arial, sans-serif;
+    text-align: start;
+}
+
+.footermain{
+    display: flex;
+    justify-content: space-around;
+    align-items: start;
+    border-top: 1px solid #D9D9D9;
+    padding: 1% 0;
+}
+
+.footer-section {
+    flex: 1;
+    margin: 0 20px;
+}
+
+.footer-section h4 {
+    font-size: smaller;
+    color: #9F9F9F;
+    margin-bottom: 10%;
+}
+
+.footer-section p {
+    color: #888;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.footer-section ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.footer-section ul li {
+    margin-bottom: 6%;
+    color: #000000;
+    font-size: small;
+    font-weight: 700;
+}
+
+.footer-section ul li a {
+    text-decoration: none;
+    color: #333;
+}
+
+.footer-section form{
+    display: flex;
+}
+
+.footer-input {
+    padding: 8px;
+    width: 100%;
+    max-width: 250px;
+    border: none;
+    border-bottom: 1px solid #000000;
+    margin-top: 10px;
+}
+
+.subscribe-button {
+    padding:6px;
+    margin-top: 10px;
+    margin-left: 3px;
+    border: none;
+    border-bottom: 1px solid #000000;
+    background-color: transparent;
+    color: #000000;
+    cursor: pointer;
+}
+
+.subscribe-button:hover {
+    background-color: #555;
+}
+
+.divp{
+    margin: 1%;
+    border: none;
+    border-top: 1px solid #D9D9D9;
+}
+
+.mt{
+    margin-top: 20%;
+}
+
+@media (max-width:767px){
+    .footer {
+        padding: 5%;
+        text-align: center;
+    }
+
+    .footermain{
+        display: block;
+    }
+
+    .footer-section {
+        margin: 10%;
+    }
+
+    .footer-section h4 {
+        font-size: larger;
+    }
+
+    .footer-section form{
+        display: block;
+    }
+
+    .footer-input {
+        padding: 8px;
+        width: 100%;
+        max-width: 250px;
+        border: none;
+        border-bottom: 1px solid #000000;
+        margin-top: 10px;
+    }
+
+    .subscribe-button {
+        padding:6px;
+        margin-top: 10px;
+        margin-left: 3px;
+        border: none;
+        border-bottom: 1px solid #000000;
+        background-color: transparent;
+        color: #000000;
+        cursor: pointer;
+    }
+
+    .subscribe-button:hover {
+        background-color: #555;
+    }
+
+    .mt{
+        margin-top: 10%;
+    }
+}

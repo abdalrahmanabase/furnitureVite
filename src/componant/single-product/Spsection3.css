@@ -1,0 +1,66 @@
+.spsec3{
+    padding: 2% 6%;
+    display: block;
+    border-top: 1px solid #D9D9D9;
+}
+
+.sppdis{
+    padding: 0 12%;
+}
+
+.sppdis p{
+    color: #9F9F9F;
+    text-align: start;
+    margin: 2% 0;
+}
+
+.sph3{
+    display:flex;
+    justify-content: space-around;
+    margin: 2% 0;
+}
+
+.sph3 span{
+    color: #000000;
+}
+
+.sph3 h3{
+    color: #9F9F9F;
+    font-weight: 400;
+}
+
+.spsec3imgs{
+    display: flex;
+    justify-content: space-around;
+}
+
+@media ( max-width:1024px){
+    
+    .spsec3imgs{
+        display: block;
+    }
+
+    .spsec3imgs img{
+        margin-top: 2%;
+        width: 100%;
+    }
+}
+
+@media (max-width:768px){
+
+    .sppdis{
+        padding: 0 6%;
+    }
+
+    .sph3 h3{
+        font-size: large;
+    }
+}
+
+@media (max-width:480px){
+    
+    .sph3 h3{
+        font-size: large;
+    }
+    
+}
