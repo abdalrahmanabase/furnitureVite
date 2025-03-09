@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-// دالة غير متزامنة للتسجيل
+// Register User Async Function
 export const registerUser = createAsyncThunk(
   "auth/registerUser",
   async (userData, { rejectWithValue }) => {
     try {
-      const res = await fetch("/api/register", {
+      const res = await fetch("http://127.0.0.1:8000/api/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userData),
@@ -14,10 +14,13 @@ export const registerUser = createAsyncThunk(
       const data = await res.json();
 
       if (!res.ok) {
-        return rejectWithValue(data.errors);
+        return rejectWithValue(data.errors || "Registration failed");
       }
 
-      localStorage.setItem("token", data.token);
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+      }
+
       return data.token;
     } catch (error) {
       return rejectWithValue("Something went wrong!");

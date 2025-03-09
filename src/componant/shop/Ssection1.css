@@ -6,13 +6,14 @@
     width: 100%;
     height: fit-content;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
-    padding: 1% 5%;
+    padding: 1% 0%;
     background-image: url('../imgs//Rectangle\ 20.png');
 }
 
 .filretdiv{
+    width: fit-content;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -51,6 +52,7 @@
 
 .searchdiv p{
     margin-bottom: 0 !important;
+    margin-top: 0 !important;
     font-weight: 500;
     margin-inline-end: 15px;
 }

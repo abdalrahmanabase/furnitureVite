@@ -7,14 +7,13 @@ const Spsection2=()=>{
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
-        axios.get('api/products')
-        .then((response) => {
-            // console.log(response.data.products)
-            setProducts(response.data.products);
-        })
-        .catch((error) => {
-            console.error("Error fetching data: ", error);
-    });
+        axios.get('http://127.0.0.1:8000/api/products') 
+            .then((response) => {
+                setProducts(response.data.products); 
+            })
+            .catch((error) => {
+                console.error("Error fetching data: ", error);
+            });
     }, []);
     return(
         <div className="spsec2">
@@ -30,10 +29,10 @@ const Spsection2=()=>{
                                     <img src="/default-image.jpg" alt="Default Product" />
                                 )}
                             </Link>
-                            <p>{product.title}</p>
-                            <h3>Price: ${product.price}</h3>
-                        </div>
-                    ))}
+                        <p>{product.title}</p>
+                        <h3>Price: ${product.price}</h3>
+                    </div>
+                ))}
                 </div>
             </div>
             <button>View More</button>

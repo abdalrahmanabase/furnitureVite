@@ -10,7 +10,7 @@ import Blog from './componant/Blog/Blog';
 import Login from './componant/my-account/Login';
 import Register from './componant/my-account/Register';
 import { Provider } from 'react-redux';
-import store from './store';
+import store from './redux/store.js';
 
 function App() {
   return (
