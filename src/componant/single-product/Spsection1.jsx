@@ -18,31 +18,19 @@ const Spsection1 = () => {
     const { status } = useSelector((state) => state.cart);
 
     useEffect(() => {
-        const token = localStorage.getItem("token");
-
-        if (!token) {
-            alert("You must be logged in to view product details.");
-            navigate('/login');
-            return;
-        }
-
         setIsLoading(true);
         axios
-            .get(`http://127.0.0.1:8000/api/products/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            })
+            .get(`http://127.0.0.1:8000/api/products/${id}`)
             .then((response) => {
                 setProduct(response.data.product);
                 setIsLoading(false);
             })
-            .catch((error) => {
-                console.error("Error fetching product:", error);
+            .catch(() => {
                 alert("Failed to fetch product details. Please try again later.");
                 setIsLoading(false);
             });
-    }, [id, navigate]);
+    }, [id]);
+    
 
     useEffect(() => {
         document.body.style.overflow = isPopupOpen ? 'hidden' : 'auto';
@@ -61,25 +49,26 @@ const Spsection1 = () => {
 
     const handleAddToCart = () => {
         if (!product) return;
-
+    
         const token = localStorage.getItem("token");
-
+    
         if (!token) {
             alert("You must be logged in to add items to the cart.");
-            navigate('/login');
+            navigate('/login'); // Redirect only for adding to cart
             return;
         }
-
+    
         dispatch(addToCartAsync({ id: product.id, quantity }))
             .unwrap()
             .then(() => {
                 openPopup();
             })
             .catch((error) => {
-                console.error("Error adding to cart:", error);
                 alert(error.message || "Failed to add item to cart. Please try again.");
+                openPopup();
             });
     };
+    
 
     const openPopup = () => {
         setIsPopupOpen(true);
@@ -119,6 +108,7 @@ const Spsection1 = () => {
                         <img src={product?.images?.[0]?.image || "/default-image.jpg"} alt={product?.title || "Product"} loading="lazy" onError={(e) => { e.target.src = "/default-image.jpg"; }} />
                     </div>
                 </div>
+                
                 <div className="spwrite">
                     <h1 className='protitle'>{product.title}</h1>
                     <div className="staricons">

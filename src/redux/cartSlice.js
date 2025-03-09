@@ -15,24 +15,39 @@ export const fetchCartItemsAsync = createAsyncThunk(
     }
   );
   
-
-export const addToCartAsync = createAsyncThunk(
+  export const addToCartAsync = createAsyncThunk(
     "cart/addToCart",
-    async ({ id, quantity }, { rejectWithValue }) => {
+    async ({ id, quantity }, { getState, rejectWithValue }) => {
       try {
         const token = localStorage.getItem("token");
         if (!token) return rejectWithValue({ message: "User not authenticated" });
   
+        const state = getState();
+        const existingItem = state.cart.cartItems.find((item) => item.id === id);
+  
+        if (existingItem) {
+          return rejectWithValue({ message: "Product is already in the cart!" });
+        }
+  
+        // ✅ Send API request
         const response = await axios.post(
           `${API_URL}/add/${id}`,
           { quantity },
           { headers: { Authorization: `Bearer ${token}` } }
         );
   
-        // Fetch product details to include in the response
-        const productResponse = await axios.get(`http://127.0.0.1:8000/api/products/${id}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        console.log("Cart response:", response.data);
+  
+        // ✅ Check if the API response contains `cartItem`
+        if (!response.data.cartItem) {
+          return rejectWithValue({ message: response.data.message || "Unexpected response from server" });
+        }
+  
+        // ✅ Fetch product details
+        const productResponse = await axios.get(
+          `http://127.0.0.1:8000/api/products/${id}`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
   
         const product = productResponse.data.product;
   
@@ -46,14 +61,12 @@ export const addToCartAsync = createAsyncThunk(
           },
         };
       } catch (error) {
-        if (error.response?.status === 409) {
-          return rejectWithValue({ message: "This product is already in your cart." });
-        }
-        return rejectWithValue(error.response?.data || { message: "Failed to add to cart" });
+        console.error("Add to cart error:", error.response?.data || error.message);
+        return rejectWithValue(error.response?.data || { message: "Failed to add item to cart" });
       }
     }
   );
-
+  
 // ✅ Remove item from cart in database
 export const removeFromCartAsync = createAsyncThunk(
   "cart/removeFromCart",

@@ -1,12 +1,16 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { logout } from "../../redux/authSlice";
+
 import axios from "axios";
+import { useDispatch } from "react-redux";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({ email: "", password: "", general: "" });
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -57,7 +61,7 @@ const Login = () => {
           />
           {errors.email && <p className="error">{errors.email}</p>}
         </div>
-
+        
         <div>
           <input
             type="password"
@@ -72,6 +76,7 @@ const Login = () => {
 
         <button type="submit">Login</button>
       </form>
+      <button onClick={() => dispatch(logout())}>Logout</button>
     </div>
   );
 };
