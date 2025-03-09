@@ -5,7 +5,7 @@ import Navbar from "../Navbar"
 import Checkheader from './Checkheader';
 import './Cksection1.css'
 import Cksection1 from './Cksection1';
-import Cksection2 from './Cksection2';
+// import Cksection2 from './Cksection2';
 
 
 const Checkout=()=> {
@@ -15,7 +15,7 @@ return (
         <Checkheader/>
         <div className='cksecs'>
             <Cksection1/>
-            <Cksection2/>
+            {/* <Cksection2/> */}
         </div>
         <Ssection2/>
         <Footer/>
