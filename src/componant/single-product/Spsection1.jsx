@@ -17,7 +17,8 @@ const Spsection1 = () => {
     useEffect(() => {
         axios.get(`api/products/${id}`)
             .then(response => {
-                setProduct(response.data.product);
+                console.log("API Response:", response.data); // Debugging
+                setProduct(response.data.product); // Use response.data.product
             })
             .catch(error => {
                 console.error("Error fetching product data:", error);
