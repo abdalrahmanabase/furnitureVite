@@ -14,6 +14,7 @@ const Spsection1 = () => {
     const [quantity, setQuantity] = useState(1);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
+    const [wishlistLoading, setWishlistLoading] = useState(false);
 
     const { status } = useSelector((state) => state.cart);
 
@@ -67,6 +68,29 @@ const Spsection1 = () => {
                 alert(error.message || "Failed to add item to cart. Please try again.");
                 openPopup();
             });
+    };
+
+    const handleAddToWishlist = async () => {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+            alert("You must be logged in to add items to the wishlist.");
+            navigate('/login'); // Redirect to login if not authenticated
+            return;
+        }
+
+        setWishlistLoading(true);
+        try {
+            const response = await axios.post(`http://127.0.0.1:8000/api/wishlist/add/${product.id}`, {}, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            alert(response.data.message);
+        } catch (error) {
+            alert(error.response?.data?.message || "Failed to add item to wishlist. Please try again.");
+        } finally {
+            setWishlistLoading(false);
+        }
     };
     
 
@@ -157,6 +181,9 @@ const Spsection1 = () => {
                         </div>
                         <button onClick={handleAddToCart} className='cartbtn' disabled={status === "loading"}>
                             {status === "loading" ? "Adding..." : "Add to Cart"}
+                        </button>
+                        <button onClick={handleAddToWishlist} className="wishlist-btn" disabled={wishlistLoading}>
+                            {wishlistLoading ? "Adding to Wishlist..." : "Add to Wishlist"}
                         </button>
                     </div>
                 </div>

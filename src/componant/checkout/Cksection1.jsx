@@ -11,9 +11,13 @@ const Cksection1=()=> {
       first_name: "",
       last_name: "",
       address_line1: "",
+      address_line2:"",
       city: "",
+      state:"",
       country: "",
       phone_number: "",
+      zip_code:"",
+      google_map_link:"",
     });
   
     useEffect(() => {
@@ -83,7 +87,7 @@ const Cksection1=()=> {
               checked={selectedAddress?.id === address.id}
               onChange={() => handleSelectAddress(address.id)}
             />
-            {address.first_name} {address.last_name}, {address.address_line1}, {address.city}, {address.country}
+            {address.first_name} {address.last_name}, {address.address_line1},{address.address_line2}, {address.city},{address.state}, {address.country},{address.phone_number},
           </div>
         ))}
   
@@ -109,9 +113,21 @@ const Cksection1=()=> {
             />
             <input
               type="text"
+              placeholder="Address2"
+              value={newAddress.address_line2}
+              onChange={(e) => setNewAddress({ ...newAddress, address_line2: e.target.value })}
+            />
+            <input
+              type="text"
               placeholder="City"
               value={newAddress.city}
               onChange={(e) => setNewAddress({ ...newAddress, city: e.target.value })}
+            />
+              <input
+              type="text"
+              placeholder="State"
+              value={newAddress.state}
+              onChange={(e) => setNewAddress({ ...newAddress, state: e.target.value })}
             />
             <input
               type="text"
@@ -124,6 +140,18 @@ const Cksection1=()=> {
               placeholder="Phone Number"
               value={newAddress.phone_number}
               onChange={(e) => setNewAddress({ ...newAddress, phone_number: e.target.value })}
+            />
+            <input
+              type="text"
+              placeholder="Zip Code"
+              value={newAddress.zip_code}
+              onChange={(e) => setNewAddress({ ...newAddress, zip_code: e.target.value })}
+            />
+            <input
+              type="text"
+              placeholder="Google Map Location  "
+              value={newAddress.google_map_link}
+              onChange={(e) => setNewAddress({ ...newAddress, google_map_link: e.target.value })}
             />
             <button type="submit">Save Address</button>
           </form>

@@ -27,7 +27,7 @@ return(
             <div className="icons">
                 <Link to='/Login'> <i class="fa-regular fa-user"></i></Link>
                 <Link to='/'><i class="fa-solid fa-magnifying-glass"></i></Link>
-                <Link to='/'><i class="fa-regular fa-heart"></i></Link>
+                <Link to='/wishlist'><i class="fa-regular fa-heart"></i></Link>
                 <Link to='/Cart'><i class="fa-solid fa-cart-shopping"></i></Link>
             </div>
         </nav>

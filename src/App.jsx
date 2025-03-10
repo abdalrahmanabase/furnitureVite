@@ -11,6 +11,7 @@ import Login from './componant/my-account/Login';
 import Register from './componant/my-account/Register';
 import { Provider } from 'react-redux';
 import store from './redux/store.js';
+import Wishlist from './componant/wishlist/Wishlist';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
             <Route path="/Cart" element={<Cart />} />
             <Route path="/Checkout" element={<Checkout />} />
             <Route path="/Blog" element={<Blog />} />
+            <Route path='/wishlist' element={<Wishlist />} />
           </Routes>
         </div>
       </Router>

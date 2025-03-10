@@ -36,7 +36,6 @@ export const fetchCartItemsAsync = createAsyncThunk(
           { headers: { Authorization: `Bearer ${token}` } }
         );
   
-        console.log("Cart response:", response.data);
   
         // ✅ Check if the API response contains `cartItem`
         if (!response.data.cartItem) {
