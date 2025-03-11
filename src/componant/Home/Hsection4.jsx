@@ -1,34 +1,43 @@
-import React from "react";
-import "./Hsection4.css"
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import "./Hsection4.css";
 
-const Hsection4=()=>{
-    return(
+const Hsection4 = () => {
+    const [blogs, setBlogs] = useState([]);
+
+    useEffect(() => {
+        axios.get("http://127.0.0.1:8000/api/blogs")
+            .then(response => {
+                setBlogs(response.data.blogs.slice(0, 3)); // Get only the latest 3 blogs
+            })
+            .catch(error => console.error("Error fetching blogs:", error));
+    }, []);
+
+    return (
         <div className="hsec4">
             <h2>Our Blogs</h2>
-            <p>Find a bright ideal to suit your taste with our great selection</p>
+            <p>Find a bright idea to suit your taste with our great selection</p>
             <div className="sec4cont">
-                <div className="blog">
-                    <img src="/imgs/Rectangle 13.png" alt="..."/>                   
-                    <h3>Going all-in with millennial design</h3>
-                    <button><Link to="/Blog"> Read More</Link></button>
-                    <p><i class="fa-regular fa-clock"></i>5 min<i class="fa-regular fa-calendar"></i>12th Oct 2022</p>
-                </div>
-                <div className="blog">
-                    <img src="/imgs/Rectangle 14.png" alt="..."/> 
-                    <h3>Going all-in with millennial design</h3>
-                    <button><Link to="/Blog"> Read More</Link></button>
-                    <p><i class="fa-regular fa-clock"></i>5 min<i class="fa-regular fa-calendar"></i>12th Oct 2022</p>
-                </div>
-                <div className="blog">
-                    <img src="/imgs/Rectangle 15.png" alt="..."/>                  
-                    <h3>Going all-in with millennial design</h3>
-                    <button><Link to="/Blog"> Read More</Link></button>
-                    <p><i class="fa-regular fa-clock"></i>5 min<i class="fa-regular fa-calendar"></i>12th Oct 2022</p>
-                </div>
+                {blogs.length > 0 ? (
+                    blogs.map(blog => (
+                        <div className="blog" key={blog.id}>
+                            <img src={blog.image ? blog.image : "/imgs/default.png"} alt={blog.title} />
+                            <h3>{blog.title}</h3>
+                            <button><Link to={`/blog/${blog.id}`}>Read More</Link></button>
+                            <p>
+                                <i className="fa-regular fa-clock"></i> 5 min 
+                                <i className="fa-regular fa-calendar"></i> {new Date(blog.created_at).toLocaleDateString()}
+                            </p>
+                        </div>
+                    ))
+                ) : (
+                    <p>No blogs available.</p>
+                )}
             </div>
-            <button><Link to="/Blog"> View All Post</Link></button>
+            <button><Link to="/blog">View All Posts</Link></button>
         </div>
-    )
-}
-export default Hsection4;   
+    );
+};
+
+export default Hsection4;
