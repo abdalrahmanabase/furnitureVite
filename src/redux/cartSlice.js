@@ -14,7 +14,6 @@ export const fetchCartItemsAsync = createAsyncThunk(
       return data.cart?.cart_items || []; // Extract cart_items properly
     }
   );
-  
   export const addToCartAsync = createAsyncThunk(
     "cart/addToCart",
     async ({ id, quantity }, { getState, rejectWithValue }) => {
@@ -32,10 +31,9 @@ export const fetchCartItemsAsync = createAsyncThunk(
         // ✅ Send API request
         const response = await axios.post(
           `${API_URL}/add/${id}`,
-          { quantity },
+          { quantity }, // Quantity is sent correctly
           { headers: { Authorization: `Bearer ${token}` } }
         );
-  
   
         // ✅ Check if the API response contains `cartItem`
         if (!response.data.cartItem) {

@@ -38,7 +38,7 @@
 }
 
 .smallspimg img {
-    width: 80px; 
+    width: 5rem; 
     height: auto;
     cursor: pointer;
     border: 1px solid #ddd;
@@ -47,10 +47,10 @@
 }
 
 .largeimg img {
-    width: 400px; 
+    width: 22.5rem; 
     height: auto;
     border-radius: 4px;
-    border: 1px solid #ddd;
+    border: 0px solid #ddd;
     transition: transform 0.3s ease;
 }
 
@@ -123,6 +123,18 @@
 
 .spbuy{
     display: flex;
+}
+
+.wishlist-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+    width: 10%;
+}
+
+.wishlist-btn:hover {
+    transform: scale(1.1); /* Slight zoom on hover */
 }
 
 .quantity{

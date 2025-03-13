@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCartAsync } from '../../redux/cartSlice';
+import { fetchWishlistAsync, toggleWishlistAsync } from "../../redux/wishlistSlice";
 import { Link } from 'react-router-dom';
 import './Spsection1.css';
 import './Sppopup.css';
@@ -15,8 +16,7 @@ const Spsection1 = () => {
     const [quantity, setQuantity] = useState(1);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
-    const [wishlistLoading, setWishlistLoading] = useState(false);
-
+    const { wishlist, loading: wishlistLoading } = useSelector((state) => state.wishlist);
     const { status } = useSelector((state) => state.cart);
 
     useEffect(() => {
@@ -71,29 +71,13 @@ const Spsection1 = () => {
             });
     };
 
-    const handleAddToWishlist = async () => {
-        const token = localStorage.getItem("token");
-
-        if (!token) {
-            alert("You must be logged in to add items to the wishlist.");
-            navigate('/login'); // Redirect to login if not authenticated
-            return;
-        }
-
-        setWishlistLoading(true);
-        try {
-            const response = await axios.post(`http://127.0.0.1:8000/api/wishlist/add/${product.id}`, {}, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
-
-            alert(response.data.message);
-        } catch (error) {
-            alert(error.response?.data?.message || "Failed to add item to wishlist. Please try again.");
-        } finally {
-            setWishlistLoading(false);
-        }
+    const handleToggleWishlist = () => {
+        if (!product) return;
+        dispatch(toggleWishlistAsync(product));
     };
-    
+    useEffect(() => {
+        dispatch(fetchWishlistAsync());
+    }, [dispatch]);
 
     const openPopup = () => {
         setIsPopupOpen(true);
@@ -102,7 +86,7 @@ const Spsection1 = () => {
     const closePopup = () => {
         setIsPopupOpen(false);
     };
-
+    const isInWishlist = product ? wishlist.some((item) => item.id === product.id) : false;
     const subtotal = (product?.price * quantity).toFixed(2);
 
     const viewCart = () => navigate('/cart');
@@ -183,8 +167,8 @@ const Spsection1 = () => {
                         <button onClick={handleAddToCart} className='cartbtn' disabled={status === "loading"}>
                             {status === "loading" ? "Adding..." : "Add to Cart"}
                         </button>
-                        <button onClick={handleAddToWishlist} className="wishlist-btn" disabled={wishlistLoading}>
-                            {wishlistLoading ? "Adding to Wishlist..." : "Add to Wishlist"}
+                        <button onClick={handleToggleWishlist} className="wishlist-btn" disabled={wishlistLoading}>
+                            <i className="fa-solid fa-heart" style={{ color: isInWishlist ? "red" : "gray" }}></i>
                         </button>
                     </div>
                 </div>
