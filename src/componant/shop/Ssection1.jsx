@@ -7,11 +7,11 @@ const Ssection1 = () => {
     const [products, setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [categories, setCategories] = useState([]);
-    const [brands, setBrands] = useState([]);
+    // const [brands, setBrands] = useState([]);
     const [searchInput, setSearchInput] = useState("");
     const [sortOption, setSortOption] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("");
-    const [selectedBrand, setSelectedBrand] = useState("");
+    // const [selectedBrand, setSelectedBrand] = useState("");
     const [loading, setLoading] = useState(true);
 
     // Fetch products, categories, and brands
@@ -34,11 +34,11 @@ const Ssection1 = () => {
             })
             .catch((error) => console.error("Error fetching categories:", error));
 
-        axios.get("api/brands") // Fetch brands
-            .then((response) => {
-                setBrands(response.data);
-            })
-            .catch((error) => console.error("Error fetching brands:", error));
+        // axios.get("api/brands") // Fetch brands
+        //     .then((response) => {
+        //         setBrands(response.data);
+        //     })
+        //     .catch((error) => console.error("Error fetching brands:", error));
     }, []);
 
     // Function to update displayed products
@@ -51,9 +51,9 @@ const Ssection1 = () => {
             updatedProducts = updatedProducts.filter(product => product.category.name === selectedCategory);
         }
 
-        if (selectedBrand) {
-            updatedProducts = updatedProducts.filter(product => product.brand.name === selectedBrand);
-        }
+        // if (selectedBrand) {
+        //     updatedProducts = updatedProducts.filter(product => product.brand.name === selectedBrand);
+        // }
 
         if (sortOption === "nameAsc") {
             updatedProducts.sort((a, b) => a.title.localeCompare(b.title));
@@ -71,7 +71,7 @@ const Ssection1 = () => {
     // Update products when filters change
     useEffect(() => {
         updateProducts();
-    }, [searchInput, sortOption, selectedCategory, selectedBrand]);
+    }, [searchInput, sortOption, selectedCategory]);
 
     return (
         <div className="productsmain">
@@ -81,14 +81,14 @@ const Ssection1 = () => {
                 <div className="filretdiv">
                     <label>Category: </label>
                     <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
-                        <option value="">All Categories</option>
+                        <option value="">All </option>
                         {categories.map((category) => (
                             <option key={category.id} value={category.name}>{category.name}</option>
                         ))}
                     </select>
                 </div>
 
-                {/* Brand Filter */}
+                {/* Brand Filter
                 <div className="filretdiv">
                     <label>Brand: </label>
                     <select value={selectedBrand} onChange={(e) => setSelectedBrand(e.target.value)}>
@@ -97,13 +97,13 @@ const Ssection1 = () => {
                             <option key={brand.id} value={brand.name}>{brand.name}</option>
                         ))}
                     </select>
-                </div>
+                </div> */}
 
                 {/* Sort Options */}
                 <div className="filretdiv">
                     <i className="fa-solid fa-sliders"></i>
                     <select value={sortOption} onChange={(e) => setSortOption(e.target.value)}>
-                        <option value="">Sort By</option>
+                        <option value="">All </option>
                         <option value="nameAsc">Name Ascending</option>
                         <option value="nameDesc">Name Descending</option>
                         <option value="priceAsc">Price Ascending</option>
@@ -133,16 +133,18 @@ const Ssection1 = () => {
                 <div id="products-box" className="productbox">
                     {filteredProducts.slice(0, 16).map((product) => (
                         <div className="productdiv" key={product.id}>
-                            <Link to={`/singleproduct/${product.id}`}>
-                                {product.images && product.images.length > 0 ? (
-                                    <img src={product.images[0].image} alt={product.title} />
-                                ) : (
-                                    <img src="/default-image.jpg" alt="Default Product" />
-                                )}
-                            </Link>
-                            <div style={{ display: "block" }}>
+                            <div className="productimg">
+                                <Link to={`/singleproduct/${product.id}`}>
+                                    {product.images && product.images.length > 0 ? (
+                                        <img src={product.images[0].image} alt={product.title} />
+                                    ) : (
+                                        <img src="/default-image.jpg" alt="Default Product" />
+                                    )}
+                                </Link>
+                            </div>
+                            <div className="productdell">
                                 <h4>{product.title}</h4>
-                                <p>Price: ${product.price}</p>
+                                <p>${product.price}</p>
                                 <button>
                                     <Link to={`/singleproduct/${product.id}`}>View Product</Link>
                                 </button>

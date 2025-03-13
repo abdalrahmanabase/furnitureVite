@@ -7,13 +7,13 @@ const Hsection1=()=>{
         <div className="hsec1">
             <div className="piccont ">
                 <img src="/imgs/Granite square side table 1.png" alt="..."></img>
-                <h2>Side table</h2>
-                <button><Link to="/Shop">View More</Link></button>
+                <h2>Granite square side table</h2>
+                <button className="shop-button"><Link to="/singleproduct/17">View More</Link></button>
             </div>
             <div className="piccont">
-                <img src="/imgs/Cloud sofa three seater + ottoman_3 1.png" alt="..."></img>
-                <h2>Side table</h2>
-                <button><Link to="/Shop">View More</Link></button>
+                <img src="/imgs/Mask group.png" alt="..."></img>
+                <h2>Trenton modular sofa_3</h2>
+                <button className="shop-button"><Link to="/singleproduct/5">View More</Link></button>
             </div>
         </div>
     )

@@ -33,13 +33,13 @@ const Hsection2 = () => {
                                 )}
                             </Link>
                             <p>{product.title}</p>
-                            <h3>Price: ${product.price}</h3>
+                            <h3> ${product.price}</h3>
                         </div>
                     ))}
                 </div>
             </div>
 
-            <button>View More</button>
+            <button className="shop-button"><Link to="/Shop">View More</Link></button>
         </div>
     );
 };

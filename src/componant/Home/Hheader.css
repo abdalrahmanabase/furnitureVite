@@ -26,16 +26,29 @@
 .shop-button {
     border: none;
     margin-top: 5%;
-    font-size: large;
-    font-weight: 500;
-    color: #000000;
+    font-size: 1.2rem; /* Responsive font size */
+    font-weight: 600;
+    color: #000;
     background-color: transparent;
     border-bottom: 2px solid #333;
-    padding:  2% 0;
+    padding: 10px 0;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out; /* Smooth transition */
+    outline: none; /* Remove focus outline */
 }
 
-.shop-button :hover{
-    background-color: #250303;
+.shop-button:hover {
+    background-color: rgba(128, 128, 128, 0.2); /* Subtle gray background */
+    color: #222; /* Slightly darker text */
+    border-bottom-color: #555; /* Darker border on hover */
+}
+
+.shop-button:focus {
+    outline: 2px solid #555; /* Accessibility focus indicator */
+}
+
+.shop-button:active {
+    transform: scale(0.98); /* Click effect */
 }
 
 .image-section {

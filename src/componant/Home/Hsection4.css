@@ -52,6 +52,7 @@
     
     .sec4cont img{
         width: 90%;
+        margin-inline-start: 5%;
     }
 }
 
@@ -61,5 +62,6 @@
 @media (max-width:480px){
     .sec4cont img{
         width: 80%;
+        margin-inline-start: 10%;
     }
 }

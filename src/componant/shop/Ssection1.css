@@ -64,44 +64,104 @@
     color:#9F9F9F ;
 }
 
-.productbox{
+.productbox {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-around;
     padding: 2%;
+    gap: 1.5rem; /* Space between products */
 }
 
-.productdiv{
+.productdiv {
     width: 22%;
-    margin-bottom: 2%;
+    min-width: 200px; /* Prevents items from getting too small */
+    text-align: center;
 }
 
-.productdiv img:hover{
-    transform: scale(1.1); 
-}
-
-.productdiv img{
-    background-color: #9f9f9f21;
+.productimg {
+    width: 100%;
+    aspect-ratio: 4/3; /* Keeps images proportional */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* Prevents distortion */
     border-radius: 10px;
+}
+
+.productimg img {
     width: 100%;
     height: 100%;
+    object-fit: cover; /* Ensures uniform size while preserving aspect ratio */
+    border-radius: 10px;
+    transition: transform 0.3s ease-in-out;
 }
 
-.productdiv p{
-    font-size: larger;
-    font-weight: 400;
+.productimg img:hover {
+    transform: scale(1.1);
 }
 
-.productdiv button{
+.productdell {
+    display: block;
+}
+
+.productdell p {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.productdell button {
     border: none;
-        margin-top: 5%;
-        font-size: large;
-        font-weight: 500;
-        color: #000000;
-        background-color: transparent;
-        border-bottom: 2px solid #333;
-        padding: 2%;
+    margin-top: 5%;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #000;
+    background-color: transparent;
+    border-bottom: 2px solid #333;
+    padding: 2%;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.productdell button:hover {
+    border-bottom-color: #555;
+    color: #333;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .productdiv {
+        width: 30%; /* Adjusts grid for tablets */
+    }
+}
+
+@media (max-width: 768px) {
+    .productdiv {
+        width: 45%; /* Adjusts grid for smaller screens */
+    }
+    .productbox{
+        gap: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .productdiv {
+        width: 90%; /* One item per row on small screens */
+    }
+
+    .productimg {
+        width: 100%;
+        aspect-ratio: 4/3; /* Keeps images proportional */
+
+    }
+    
+    .productimg img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Ensures uniform size while preserving aspect ratio */
+        border-radius: 10px;
+        transition: transform 0.3s ease-in-out;
+    }
 }
 
 /* Spinner animation */
@@ -146,6 +206,8 @@
     
     .filterandsearch{
         padding: 2%;
+        display: flex;
+        flex-wrap: wrap-reverse;
     }
     
     .searchdiv p{

@@ -6,7 +6,7 @@ return (
     <div className='blogheader'>
         <div className='bloghead'>
             <img src="/imgs/Group 55blog.png" alt='...'></img>
-            <p>Home <i class="fa-solid fa-angle-right"></i>   Shop</p>
+            <p><Link to='/'>Home</Link> <i class="fa-solid fa-angle-right"></i>  <Link to={location.pathname}>Blog</Link> </p>
         </div>
     </div>
 )

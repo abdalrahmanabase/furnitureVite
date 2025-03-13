@@ -9,7 +9,7 @@ const Hsection3=()=>{
             <div className="sec3write">
                 <h4>New Arrivals</h4>
                 <h2>Asgaard sofa</h2>
-                <button><Link to="/Shop">Order Now</Link></button>
+                <button><Link to="/singleproduct/18">Order Now</Link></button>
             </div>
         </div>
     )

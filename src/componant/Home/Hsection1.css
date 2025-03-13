@@ -9,10 +9,14 @@
 
 .piccont{
     display: block;
+    width: 40%;
+    height: 70vh;
 }
 
 .piccont img{
-    width: 90%;
+    width: 80%;
+    margin-inline-start: 10%;
+    height: 55vh;
 }
 
 .piccont h2{
@@ -32,14 +36,6 @@
 }
 
 @media (max-width:767px){
-    .hsec1{
-        display:  block;
-        padding: 3% 0;
-    }
-    
-    .piccont{
-        display: block;
-    }
     
     .piccont img{
         width: 70%;
@@ -61,4 +57,13 @@
         padding: 2%;
     }
     
+}
+
+@media (max-width:480px){
+
+    .piccont img{
+        width: fit-content;
+        height: 40vh;
+        margin-inline-start: 0;
+    }
 }

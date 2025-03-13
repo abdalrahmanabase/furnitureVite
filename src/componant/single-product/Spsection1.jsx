@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCartAsync } from '../../redux/cartSlice';
+import { Link } from 'react-router-dom';
 import './Spsection1.css';
 import './Sppopup.css';
 
@@ -119,7 +120,7 @@ const Spsection1 = () => {
 
     return (
         <div>
-            <p className='sidepar'>Home <i className="fa-solid fa-chevron-right"></i> Shop<i className="fa-solid fa-chevron-right"></i> <span>|{product.title}</span> </p>
+            <p className='sidepar'><Link to='/'>Home</Link><i className="fa-solid fa-chevron-right"></i> <Link to='/Shop'>Shop</Link><i className="fa-solid fa-chevron-right"></i> <span>|{product.title}</span> </p>
             <div className="mainspcont">
                 <div className="spimg">
                     <div className="smallspimg">

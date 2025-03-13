@@ -24,18 +24,18 @@ const Hsection4 = () => {
                         <div className="blog" key={blog.id}>
                             <img src={blog.image ? blog.image : "/imgs/default.png"} alt={blog.title} />
                             <h3>{blog.title}</h3>
-                            <button><Link to={`/blog/${blog.id}`}>Read More</Link></button>
                             <p>
-                                <i className="fa-regular fa-clock"></i> 5 min 
-                                <i className="fa-regular fa-calendar"></i> {new Date(blog.created_at).toLocaleDateString()}
+                            <span><i className="fa-solid fa-user"></i> {blog.author}</span>
+                            <i className="fa-regular fa-calendar"></i> {new Date(blog.created_at).toLocaleDateString()}
                             </p>
+                            <button><Link to={`/blog/${blog.id}`}>Read More</Link></button>
                         </div>
                     ))
                 ) : (
                     <p>No blogs available.</p>
                 )}
             </div>
-            <button><Link to="/blog">View All Posts</Link></button>
+            <button className="shop-button"><Link to="/blog">View All Posts</Link></button>
         </div>
     );
 };

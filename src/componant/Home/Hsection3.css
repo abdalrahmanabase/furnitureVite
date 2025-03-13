@@ -34,6 +34,14 @@
     background-color: transparent;
     border: 1px solid #000000;
     padding: 2% 10%;
+    transition: all 0.3s ease-in-out; /* Smooth transition */
+    outline: none; 
+}
+
+.sec3write button:hover{
+    background-color: rgba(128, 128, 128, 0.2); /* Subtle gray background */
+    color: #222; /* Slightly darker text */
+    border-bottom-color: #555; /* Darker border on hover */
 }
 
 @media ( max-width:1024px){

@@ -31,7 +31,13 @@
 
 .spsec3imgs{
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-around;
+    
+}
+
+.spsec3imgs img{
+    width: 50%;
 }
 
 @media ( max-width:1024px){
