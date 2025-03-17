@@ -13,6 +13,7 @@ import { Provider } from 'react-redux';
 import store from './redux/store.js';
 import Wishlist from './componant/wishlist/Wishlist';
 import Myaccount from './componant/my-account/Myaccount.jsx';
+import Editprofle from './componant/my-account/Editprofle.jsx';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
             <Route path="/Checkout" element={<Checkout />} />
             <Route path="/Blog" element={<Blog />} />
             <Route path='/wishlist' element={<Wishlist />} />
+            <Route path='/editprofile' element={<Editprofle/>} />
           </Routes>
         </div>
       </Router>

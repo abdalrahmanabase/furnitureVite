@@ -71,8 +71,8 @@ const Navbar = () => {
               {isLoggedIn ? (
                 <>
                   <p className="dropdown-header">Welcome, {username}</p>
-                  <Link to="/orders">My Orders</Link>
-                  <Link to="/edit-profile">Edit Profile</Link>
+                  <Link to="/">My Orders</Link>
+                  <Link to="/editprofile">Edit Profile</Link>
                   <button onClick={handleLogout}>Logout</button>
                 </>
               ) : (
