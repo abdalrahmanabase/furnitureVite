@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './Bsection1.css';
+import '../shop/Ssection1.css';
 
 const Bsection1 = () => {
     const [blogs, setBlogs] = useState([]);
@@ -53,28 +54,37 @@ const Bsection1 = () => {
 
     return (
         <div className="blogmain">
-            <div className="filters">
+            <div className="filterandsearch">
+                <div className="filretdiv">
+                        <label>Category: </label>
+                        <select onChange={(e) => setSelectedCategory(e.target.value)}>
+                            <option value="">All Categories</option>
+                            {categories.map(category => (
+                                <option key={category.id} value={category.name}>
+                                    {category.name}
+                                </option>
+                            ))}
+                        </select>
+                </div>
+                <div className="filretdiv">
+                    <label>Sort By: </label>
+                    <select onChange={(e) => setSortOption(e.target.value)}>
+                        <option value="">all</option>
+                        <option value="titleAsc">Title (A-Z)</option>
+                        <option value="titleDesc">Title (Z-A)</option>
+                        <option value="dateAsc">Date (Oldest First)</option>
+                        <option value="dateDesc">Date (Newest First)</option>
+                    </select>
+                </div>
+                <div className="searchdiv">
+                <p>Shown Products: <span className="counter">{filteredBlogs.length}</span></p>
                 <input
                     type="text"
                     placeholder="Search blogs..."
                     value={searchInput}
                     onChange={(e) => setSearchInput(e.target.value)}
                 />
-                <select onChange={(e) => setSortOption(e.target.value)}>
-                    <option value="">Sort By</option>
-                    <option value="titleAsc">Title (A-Z)</option>
-                    <option value="titleDesc">Title (Z-A)</option>
-                    <option value="dateAsc">Date (Oldest First)</option>
-                    <option value="dateDesc">Date (Newest First)</option>
-                </select>
-                <select onChange={(e) => setSelectedCategory(e.target.value)}>
-                    <option value="">All Categories</option>
-                    {categories.map(category => (
-                        <option key={category.id} value={category.name}>
-                            {category.name}
-                        </option>
-                    ))}
-                </select>
+                </div>
             </div>
 
             <div className="blogposts">

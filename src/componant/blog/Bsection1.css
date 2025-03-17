@@ -1,17 +1,35 @@
 .blogmain{
-    padding: 5% 0 5% 5%;
-    display: flex;
-    text-align: center;
-    justify-content: space-between;
+    padding: 2% 0 ;
+    display: block;
 }
 
 .blogposts{
-    width: 65%;
+    width: 100%;
 }
 
-.blogpost{
-    text-align: start;
-    margin: 4%;
+.blogpost {
+    display: flex;
+    flex-direction: column; /* Ensures proper stacking */
+    align-items: start;
+    gap: 15px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 20px;
+    width: 70%;
+    margin-inline-start: 15%;
+    margin-top: 5%;
+    overflow: hidden; /* Prevents overflow */
+    word-wrap: break-word; /* Wraps long words */
+    flex-wrap: wrap; /* Ensures content doesn't overflow */
+}
+
+.blogdescription {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Adds "..." if content overflows */
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Limits to 3 lines */
+    -webkit-box-orient: vertical;
+    white-space: normal;
 }
 
 .blogpost img{
@@ -154,9 +172,6 @@
 }
 
 @media (max-width:480px){
-    .blogmain{
-        padding: 5% ;
-    }
 
     .blogposts{
         width: 100%;

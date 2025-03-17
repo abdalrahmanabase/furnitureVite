@@ -1,67 +1,109 @@
-.hsec4{
+.hsec4 {
     background-color: #FFFFFF;
-    display: block;
     padding: 4% 6%;
 }
 
-.hsec4 h2{
-    color: #000000;
+.hsec4 h2 {
+    color: #000;
+    font-size: 2em;
+    margin-bottom: 10px;
 }
 
-.hsec4 p{
+.hsec4 p {
     color: #9F9F9F;
+    font-size: 1.1em;
+    line-height: 1.5;
 }
 
-.hsec4 button{
+.hsec4 button {
     border: none;
-    font-size: large;
+    font-size: 1.2em;
     font-weight: 500;
-    color: #000000;
-    background-color: transparent;
+    color: #000;
+    background: transparent;
     border-bottom: 2px solid #333;
-    padding: 1% 0;
+    padding: 8px 0;
+    transition: border-color 0.3s ease, color 0.3s ease;
+    cursor: pointer;
 }
 
-.sec4cont{
+.hsec4 button:hover {
+    border-color: #000;
+    color: #333;
+}
+
+.sec4cont {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 20px;
     margin: 4%;
 }
 
-.blog{
-    display: block;
+.blog {
     text-align: center;
 }
 
-.blog h3{
-    color: #000000;
+.blog h3 {
+    color: #000;
+    font-size: 1.5em;
+    margin-bottom: 5px;
 }
 
-.blog p{
-    color: #000000;
+.blog p {
+    color: #333;
     margin-top: 3%;
-    font-weight: 300;
+    font-weight: 400;
+    font-size: 1.1em;
+    line-height: 1.5;
 }
 
-@media ( max-width:1024px){
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .sec4cont {
+        flex-direction: column;
+        text-align: center;
+    }
 
-    .sec4cont{
+    .sec4cont img {
+        width: 90%;
+        margin: 0 auto;
         display: block;
     }
-    
-    .sec4cont img{
-        width: 90%;
-        margin-inline-start: 5%;
+}
+
+@media (max-width: 768px) {
+    .hsec4 {
+        padding: 6% 4%;
+    }
+
+    .hsec4 h2 {
+        font-size: 1.8em;
+    }
+
+    .hsec4 p {
+        font-size: 1em;
+    }
+
+    .sec4cont img {
+        width: 85%;
     }
 }
 
-@media (max-width:768px){
-}
+@media (max-width: 480px) {
+    .hsec4 {
+        padding: 8% 5%;
+    }
 
-@media (max-width:480px){
-    .sec4cont img{
+    .hsec4 h2 {
+        font-size: 1.6em;
+    }
+
+    .hsec4 p {
+        font-size: 0.95em;
+    }
+
+    .sec4cont img {
         width: 80%;
-        margin-inline-start: 10%;
     }
 }
