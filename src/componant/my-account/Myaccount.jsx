@@ -3,7 +3,7 @@ import Footer from '../Footer'
 import Navbar from "../Navbar"
 import Mheader from './Mheader';
 import LoginRegister from './LoginRegister ';
-import Ssection2 from '../Shop/Ssection2';
+import Ssection2 from '../shop/Ssection2';
 
 const Myaccount=()=> {
 return (
