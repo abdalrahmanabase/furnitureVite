@@ -32,8 +32,7 @@
     font-weight: 500;
 }
 
-.form input[type="email"],
-.form input[type="password"] {
+.form input {
     width: 100%;
     padding: 8px;
     margin-bottom: 15px;
@@ -77,31 +76,5 @@
         align-items: center;
         gap: 20px;
     }
-}
-
-.loginpopup {
-    position: fixed;
-    bottom: 0;
-    left: 0%;
-    width: 100%;
-    background: white;
-    padding: 20px;
-    border-radius:10px 10px 0 0;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    z-index: 1000;
-    box-sizing: border-box;
-}
-
-.loginpopup::before {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 5px;
-    background-color: #007bff; 
-    border-radius: 10px 10px 0 0; 
-    position: absolute;
-    top: 0;
-    left: 0;
 }
 

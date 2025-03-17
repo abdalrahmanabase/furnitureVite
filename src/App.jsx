@@ -12,6 +12,7 @@ import Register from './componant/my-account/Register';
 import { Provider } from 'react-redux';
 import store from './redux/store.js';
 import Wishlist from './componant/wishlist/Wishlist';
+import Myaccount from './componant/my-account/Myaccount.jsx';
 
 function App() {
   return (
@@ -22,7 +23,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/Shop" element={<Shop />} />
             <Route path="/singleproduct/:id" element={<Singleproduct />} />
-            <Route path="/Login" element={<Login />} />
+            <Route path="/Login" element={<Myaccount/>} />
             <Route path="/Register" element={<Register />} />
             <Route path="/Contact" element={<Contact />} />
             <Route path="/Cart" element={<Cart />} />

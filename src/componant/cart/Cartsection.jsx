@@ -7,6 +7,8 @@ import {
   updateQuantityAsync,
   clearCartAsync,
 } from "../../redux/cartSlice";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./Cartsection.css";
 
 const Cartsection = () => {
@@ -24,8 +26,7 @@ const Cartsection = () => {
     dispatch(fetchCartItemsAsync())
       .unwrap()
       .catch((error) => {
-        console.error("Error fetching cart:", error);
-        alert(error.message || "Failed to fetch cart items.");
+        toast.error(error.message || "Failed to fetch cart items.");
       });
   }, [dispatch]);
 
@@ -33,8 +34,11 @@ const Cartsection = () => {
   const handleRemoveItem = (id) => {
     dispatch(removeFromCartAsync(id))
       .unwrap()
+      .then(() => {
+        toast.success("Item removed from cart.");
+      })
       .catch((error) => {
-        alert(error.message || "Failed to remove item from cart.");
+        toast.error(error.message || "Failed to remove item from cart.");
       });
   };
 
@@ -43,8 +47,11 @@ const Cartsection = () => {
     if (newQuantity < 1) return; // Prevent negative quantities
     dispatch(updateQuantityAsync({ id, quantity: newQuantity }))
       .unwrap()
+      .then(() => {
+        toast.success("Quantity updated.");
+      })
       .catch((error) => {
-        alert(error.message || "Failed to update quantity.");
+        toast.error(error.message || "Failed to update quantity.");
       });
   };
 
@@ -54,10 +61,10 @@ const Cartsection = () => {
       dispatch(clearCartAsync())
         .unwrap()
         .then(() => {
-          alert("Cart cleared successfully!");
+          toast.success("Cart cleared successfully!");
         })
         .catch((error) => {
-          alert(error.message || "Failed to clear cart.");
+          toast.error(error.message || "Failed to clear cart.");
         });
     }
   };
@@ -65,11 +72,6 @@ const Cartsection = () => {
   // Handle checkout
   const handleCheckout = () => {
     navigate("/checkout");
-  };
-
-  // Handle continue shopping
-  const handleContinueShopping = () => {
-    navigate("/shop");
   };
 
   // Display loading or error states
@@ -88,29 +90,34 @@ const Cartsection = () => {
 
   return (
     <div className="big-cart">
+      <ToastContainer position="top-right" autoClose={3000} />
       <div className="cart-container">
         {cartItems.length === 0 ? (
           <h2>Your cart is empty.</h2>
         ) : (
           cartItems.map((item) => (
-            <div className=".cart-item" key={item.id}>
-              <img src={item.product?.images?.[0]?.image || "/default-image.jpg"} alt={item.product?.title} />
+            <div className="cart-item" key={item.id}>
+              <img
+                src={item.product?.images?.[0]?.image || "/default-image.jpg"}
+                alt={item.product?.title}
+                loading="lazy"
+                onError={(e) => (e.target.src = "/default-image.jpg")}
+              />
               <div className="cart-details">
-                <h4>{item.product?.title}</h4>
+                <h3>{item.product?.title}</h3>
                 <p>Price: ${item.product?.price}</p>
                 <p>Quantity: {item.quantity}</p>
+                <div className="quantity-button">
+                  <button
+                    onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}
+                    disabled={item.quantity <= 1}
+                  >
+                    -
+                  </button>
+                  <button onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}>+</button>
+                </div>
                 <button onClick={() => handleRemoveItem(item.id)} className="delete-button">
                   <i className="fa-solid fa-trash"></i>
-                </button>
-                <button
-                  onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}
-                  className="quantity-button"
-                  disabled={item.quantity <= 1}
-                >
-                  -
-                </button>
-                <button onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)} className="quantity-button">
-                  +
                 </button>
               </div>
             </div>
@@ -119,20 +126,19 @@ const Cartsection = () => {
       </div>
 
       {cartItems.length > 0 && (
-        <div className="cart-footer-carts ">
+        <div className="cart-footer-carts">
           <div className="cart-totals">
             <h1>Cart Totals</h1>
-            <h3>Total Price: ${totalPrice.toFixed(2)}</h3>
+            <h3>
+              Total Price: <span>$ {totalPrice.toFixed(2)}</span>
+            </h3>
           </div>
           <div className="cart-actions">
-            <button onClick={handleCheckout} className="checkout-button-cart ">
+            <button onClick={handleCheckout} className="checkout-button-cart">
               Checkout
             </button>
-            <button onClick={handleClearCart} className="clear-cart-button">
+            <button onClick={handleClearCart} className="checkout-button-cart">
               Clear Cart
-            </button>
-            <button onClick={handleContinueShopping} className="continue-shopping-button">
-              Continue Shopping
             </button>
           </div>
         </div>

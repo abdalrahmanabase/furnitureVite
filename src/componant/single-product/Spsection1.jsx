@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addToCartAsync } from '../../redux/cartSlice';
 import { fetchWishlistAsync, toggleWishlistAsync } from "../../redux/wishlistSlice";
 import { Link } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './Spsection1.css';
 import './Sppopup.css';
 
@@ -28,7 +30,7 @@ const Spsection1 = () => {
                 setIsLoading(false);
             })
             .catch(() => {
-                alert("Failed to fetch product details. Please try again later.");
+                toast.error("Failed to fetch product details. Please try again later.");
                 setIsLoading(false);
             });
     }, [id]);
@@ -55,7 +57,7 @@ const Spsection1 = () => {
         const token = localStorage.getItem("token");
     
         if (!token) {
-            alert("You must be logged in to add items to the cart.");
+            toast.error("You must be logged in to add items to the cart.");
             navigate('/login'); // Redirect only for adding to cart
             return;
         }
@@ -63,10 +65,11 @@ const Spsection1 = () => {
         dispatch(addToCartAsync({ id: product.id, quantity }))
             .unwrap()
             .then(() => {
+                toast.success("Item added to cart successfully!");
                 openPopup();
             })
             .catch((error) => {
-                alert(error.message || "Failed to add item to cart. Please try again.");
+                toast.error(error.message || "Failed to add item to cart. Please try again.");
                 openPopup();
             });
     };
@@ -91,7 +94,7 @@ const Spsection1 = () => {
 
     const viewCart = () => navigate('/cart');
     const checkout = () => navigate('/checkout');
-    const continueShopping = () => navigate('/Shop');
+    // const continueShopping = () => navigate('/Shop');
 
     if (isLoading) {
         return (
@@ -104,6 +107,7 @@ const Spsection1 = () => {
 
     return (
         <div>
+                        <ToastContainer position="top-right" autoClose={3000} />
             <p className='sidepar'><Link to='/'>Home</Link><i className="fa-solid fa-chevron-right"></i> <Link to='/Shop'>Shop</Link><i className="fa-solid fa-chevron-right"></i> <span>|{product.title}</span> </p>
             <div className="mainspcont">
                 <div className="spimg">
@@ -150,20 +154,19 @@ const Spsection1 = () => {
                     </div>
 
                     <div className="spbuy">
-                        <div className="quantity">
-                            <button onClick={handleDecrease} disabled={quantity <= 1}>-</button>
-                            <input
-                                type="number"
-                                value={quantity}
-                                min="1"
-                                max="100"
-                                onChange={(e) => {
-                                    const value = Math.max(1, Math.min(100, Number(e.target.value)));
-                                    setQuantity(value);
-                                }}
-                            />
-                            <button onClick={handleIncrease}>+</button>
-                        </div>
+                    <div className="quantity">
+                        <button
+                            onClick={handleDecrease}
+                            disabled={quantity <= 1}
+                        >
+                            -
+                        </button>
+                        <span>{quantity}</span>
+                        <button onClick={handleIncrease}>
+                            +
+                        </button>
+                    </div>
+
                         <button onClick={handleAddToCart} className='cartbtn' disabled={status === "loading"}>
                             {status === "loading" ? "Adding..." : "Add to Cart"}
                         </button>
@@ -198,7 +201,6 @@ const Spsection1 = () => {
                         <div className='popupbtn'>
                             <button onClick={viewCart}>View Cart</button>
                             <button onClick={checkout}>Checkout</button>
-                            <button onClick={continueShopping}>Continue Shopping</button>
                         </div>
                     </div>
                 </div>

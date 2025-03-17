@@ -1,10 +1,9 @@
 import React from 'react'
-import Ssection2 from '../shop/Ssection2';
 import Footer from '../Footer'
 import Navbar from "../Navbar"
 import Mheader from './Mheader';
-import Msection1 from './Msection1';
 import LoginRegister from './LoginRegister ';
+import Ssection2 from '../Shop/Ssection2';
 
 const Myaccount=()=> {
 return (
@@ -12,11 +11,10 @@ return (
         <Navbar/>
         <Mheader/>
         <LoginRegister/>
-        {/* <Msection1/> */}
         <Ssection2/>
         <Footer/>
     </div>
 )
 }
 
-export default Myaccount
+export default Myaccount;

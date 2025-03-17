@@ -35,7 +35,7 @@ const Spsection2=()=>{
                 ))}
                 </div>
             </div>
-            <button>View More</button>
+            <button><Link to='/Shop'>View More</Link></button>
         </div>
     )
 }
