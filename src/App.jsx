@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Home from './componant/Home/Home.jsx';
-import Shop from './componant/Shop/Shop';
+import Shop from './componant/shop/Shop.jsx';
 import Singleproduct from './componant/single-product/Singleproduct';
 import Contact from './componant/Contact/Contact';
 import Cart from './componant/Cart/Cart';
