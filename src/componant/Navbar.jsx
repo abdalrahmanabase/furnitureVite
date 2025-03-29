@@ -3,13 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import "../componant/Navbar.css";
 import { toast } from "react-toastify";
 
+const API_BASE = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000"; // ✅ dynamic API base
+
 const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Check if user is logged in (token exists)
     const token = localStorage.getItem("token");
 
     if (token) {
@@ -18,10 +19,9 @@ const Navbar = () => {
     }
   }, []);
 
-  // Fetch username from the backend
   const fetchUsername = async (token) => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/user", {
+      const response = await fetch(`${API_BASE}/user`, {
         method: "GET",
         headers: {
           "Authorization": `Bearer ${token}`,
@@ -31,7 +31,7 @@ const Navbar = () => {
 
       if (response.ok) {
         const data = await response.json();
-        setUsername(data.user_name|| "User"); // Adjust according to your API response
+        setUsername(data.user_name || "User");
       } else {
         setIsLoggedIn(false);
       }
@@ -61,9 +61,10 @@ const Navbar = () => {
           </ul>
         </div>
         <div className="icons">
-          {/* User Dropdown Menu on Hover */}
+
+          {/* ✅ Notice className fix */}
           <div className="user-menu">
-            <div >
+            <div>
               <i className="fa-regular fa-user"></i>
             </div>
 

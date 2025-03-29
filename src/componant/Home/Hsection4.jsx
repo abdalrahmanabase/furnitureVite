@@ -7,7 +7,7 @@ const Hsection4 = () => {
     const [blogs, setBlogs] = useState([]);
 
     useEffect(() => {
-        axios.get("http://127.0.0.1:8000/api/blogs")
+        axios.get("/api/blogs")
             .then(response => {
                 setBlogs(response.data.blogs.slice(0, 3)); // Get only the latest 3 blogs
             })
@@ -28,7 +28,7 @@ const Hsection4 = () => {
                             <span><i className="fa-solid fa-user"></i> {blog.author}</span>
                             <i className="fa-regular fa-calendar"></i> {new Date(blog.created_at).toLocaleDateString()}
                             </p>
-                            <button><Link to={`/blog/${blog.id}`}>Read More</Link></button>
+                            <button><Link to={`/blog`}>Read More</Link></button>
                         </div>
                     ))
                 ) : (

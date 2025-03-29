@@ -8,12 +8,12 @@ const Hsection1=()=>{
             <div className="piccont ">
                 <img src="/imgs/Granite square side table 1.png" alt="..."></img>
                 <h2>Granite square side table</h2>
-                <button className="shop-button"><Link to="/singleproduct/17">View More</Link></button>
+                <button className="shop-button"><Link to="/singleproduct/15">View More</Link></button>
             </div>
             <div className="piccont">
                 <img src="/imgs/Mask group.png" alt="..."></img>
                 <h2>Trenton modular sofa_3</h2>
-                <button className="shop-button"><Link to="/singleproduct/5">View More</Link></button>
+                <button className="shop-button"><Link to="/singleproduct/3">View More</Link></button>
             </div>
         </div>
     )

@@ -12,16 +12,21 @@ const Bsection1 = () => {
     const [selectedCategory, setSelectedCategory] = useState("");
     const [loading, setLoading] = useState(true);
 
+    const API = import.meta.env.VITE_API_URL; // ✅ use from env
+
     useEffect(() => {
-        axios.get('http://127.0.0.1:8000/api/blogs')
+        axios.get(`${API}/blogs`)
             .then(response => {
                 setBlogs(response.data.blogs);
                 setFilteredBlogs(response.data.blogs);
                 setLoading(false);
             })
-            .catch(error => console.error("Error fetching data:", error));
+            .catch(error => {
+                console.error("Error fetching blogs:", error);
+                setLoading(false);
+            });
 
-        axios.get("http://127.0.0.1:8000/api/categories")
+        axios.get(`${API}/categories`)
             .then(response => setCategories(response.data))
             .catch(error => console.error("Error fetching categories:", error));
     }, []);
@@ -56,20 +61,20 @@ const Bsection1 = () => {
         <div className="blogmain">
             <div className="filterandsearch">
                 <div className="filretdiv">
-                        <label>Category: </label>
-                        <select onChange={(e) => setSelectedCategory(e.target.value)}>
-                            <option value="">All Categories</option>
-                            {categories.map(category => (
-                                <option key={category.id} value={category.name}>
-                                    {category.name}
-                                </option>
-                            ))}
-                        </select>
+                    <label>Category: </label>
+                    <select onChange={(e) => setSelectedCategory(e.target.value)}>
+                        <option value="">All Categories</option>
+                        {categories.map(category => (
+                            <option key={category.id} value={category.name}>
+                                {category.name}
+                            </option>
+                        ))}
+                    </select>
                 </div>
                 <div className="filretdiv">
                     <label>Sort By: </label>
                     <select onChange={(e) => setSortOption(e.target.value)}>
-                        <option value="">all</option>
+                        <option value="">All</option>
                         <option value="titleAsc">Title (A-Z)</option>
                         <option value="titleDesc">Title (Z-A)</option>
                         <option value="dateAsc">Date (Oldest First)</option>
@@ -77,21 +82,21 @@ const Bsection1 = () => {
                     </select>
                 </div>
                 <div className="searchdiv">
-                <p>Shown Products: <span className="counter">{filteredBlogs.length}</span></p>
-                <input
-                    type="text"
-                    placeholder="Search blogs..."
-                    value={searchInput}
-                    onChange={(e) => setSearchInput(e.target.value)}
-                />
+                    <p>Shown Blogs: <span className="counter">{filteredBlogs.length}</span></p>
+                    <input
+                        type="text"
+                        placeholder="Search blogs..."
+                        value={searchInput}
+                        onChange={(e) => setSearchInput(e.target.value)}
+                    />
                 </div>
             </div>
 
             <div className="blogposts">
                 {loading ? (
                     <div className="loading-indicator">
-                    <div className="spinner"></div>
-                    <p>Loading blogs...</p>
+                        <div className="spinner"></div>
+                        <p>Loading blogs...</p>
                     </div>
                 ) : filteredBlogs.length > 0 ? (
                     filteredBlogs.map(blog => (

@@ -1,23 +1,30 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import api from "./api"; 
 
+// ✅ Fetch Wishlist
+export const fetchWishlistAsync = createAsyncThunk(
+  "wishlist/fetchWishlist",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await api.get("/wishlist");
+      // Fixed key here
+      return response.data.wishlist?.wishlistItems || [];
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || "Failed to fetch wishlist.");
+    }
+  }
+);
+
+// ✅ Toggle Wishlist Item
 export const toggleWishlistAsync = createAsyncThunk(
   "wishlist/toggleWishlist",
   async (product, { getState, rejectWithValue }) => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      return rejectWithValue("You must be logged in to manage the wishlist.");
-    }
+    const wishlist = getState().wishlist.wishlist;
+    const isInWishlist = wishlist.some((item) => item.productId === product.id);
+    const url = `/wishlist/${isInWishlist ? "remove" : "add"}/${product.id}`;
 
     try {
-      const { wishlist } = getState().wishlist;
-      const isInWishlist = wishlist.some((item) => item.id === product.id);
-      const url = `http://127.0.0.1:8000/api/wishlist/${isInWishlist ? "remove" : "add"}/${product.id}`;
-
-      await axios.post(url, {}, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
+      const response = await api.post(url);
       return { product, isInWishlist: !isInWishlist };
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || "Failed to update wishlist.");
@@ -25,22 +32,7 @@ export const toggleWishlistAsync = createAsyncThunk(
   }
 );
 
-export const fetchWishlistAsync = createAsyncThunk(
-  "wishlist/fetchWishlist",
-  async (_, { rejectWithValue }) => {
-    const token = localStorage.getItem("token");
-
-    try {
-      const response = await axios.get("http://127.0.0.1:8000/api/wishlist", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      return response.data.wishlist.wishlist_items.map((item) => item.product);
-    } catch (error) {
-      return rejectWithValue(error.response?.data?.message || "Failed to fetch wishlist.");
-    }
-  }
-);
-
+// ✅ Wishlist Slice
 const wishlistSlice = createSlice({
   name: "wishlist",
   initialState: {
@@ -48,13 +40,20 @@ const wishlistSlice = createSlice({
     loading: false,
     error: null,
   },
-  reducers: {
-    setWishlist: (state, action) => {
-      state.wishlist = action.payload;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(fetchWishlistAsync.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchWishlistAsync.fulfilled, (state, action) => {
+        state.loading = false;
+        state.wishlist = action.payload;
+      })
+      .addCase(fetchWishlistAsync.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
       .addCase(toggleWishlistAsync.pending, (state) => {
         state.loading = true;
       })
@@ -62,17 +61,21 @@ const wishlistSlice = createSlice({
         state.loading = false;
         const { product, isInWishlist } = action.payload;
         if (isInWishlist) {
-          state.wishlist.push(product);
+          state.wishlist.push({
+            productId: product.id,
+            product: product
+          });
         } else {
-          state.wishlist = state.wishlist.filter((item) => item.id !== product.id);
+          state.wishlist = state.wishlist.filter(
+            (item) => item.productId !== product.id
+          );
         }
       })
-      .addCase(fetchWishlistAsync.fulfilled, (state, action) => {
+      .addCase(toggleWishlistAsync.rejected, (state, action) => {
         state.loading = false;
-        state.wishlist = action.payload;
+        state.error = action.payload;
       });
   },
 });
 
-export const { setWishlist } = wishlistSlice.actions;
 export default wishlistSlice.reducer;

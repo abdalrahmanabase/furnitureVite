@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
@@ -15,66 +15,51 @@ const Cartsection = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // Get cart data from Redux store
-  const cartItems = useSelector((state) => state.cart.cartItems || []);
-  const totalPrice = useSelector((state) => state.cart.totalPrice || 0);
-  const status = useSelector((state) => state.cart.status);
-  const error = useSelector((state) => state.cart.error);
+  // ✅ Get cart data from Redux store
+  const { cartItems = [], totalPrice = 0, status, error } = useSelector((state) => state.cart);
 
-  // Fetch cart items when the component mounts
+  // ✅ Fetch cart items when the component mounts
   useEffect(() => {
-    dispatch(fetchCartItemsAsync())
-      .unwrap()
-      .catch((error) => {
-        toast.error(error.message || "Failed to fetch cart items.");
-      });
+    dispatch(fetchCartItemsAsync()).unwrap().catch(() => {
+      toast.error("Failed to fetch cart items. Please try again.");
+    });
   }, [dispatch]);
 
-  // Handle removing an item from the cart
-  const handleRemoveItem = (id) => {
+  // ✅ Handle removing an item from the cart
+  const handleRemoveItem = useCallback((id) => {
     dispatch(removeFromCartAsync(id))
       .unwrap()
-      .then(() => {
-        toast.success("Item removed from cart.");
-      })
-      .catch((error) => {
-        toast.error(error.message || "Failed to remove item from cart.");
-      });
-  };
+      .then(() => toast.success("Item removed from cart."))
+      .catch(() => toast.error("Failed to remove item from cart."));
+  }, [dispatch]);
 
-  // Handle updating the quantity of a cart item
-  const handleUpdateQuantity = (id, newQuantity) => {
-    if (newQuantity < 1) return; // Prevent negative quantities
-    dispatch(updateQuantityAsync({ id, quantity: newQuantity }))
-      .unwrap()
-      .then(() => {
-        toast.success("Quantity updated.");
-      })
-      .catch((error) => {
-        toast.error(error.message || "Failed to update quantity.");
-      });
-  };
+  // ✅ Handle updating the quantity of a cart item
+const handleUpdateQuantity = useCallback((id, newQuantity) => {
+  if (newQuantity < 1) return;
+  dispatch(updateQuantityAsync({ cartItemId: id, quantity: newQuantity }))
+    .unwrap()
+    .then(() => toast.success("Quantity updated."))
+    .catch(() => toast.error("Failed to update quantity."));
+}, [dispatch]);
 
-  // Handle clearing the entire cart
-  const handleClearCart = () => {
+
+  // ✅ Handle clearing the entire cart
+  const handleClearCart = useCallback(() => {
     if (window.confirm("Are you sure you want to clear your cart?")) {
       dispatch(clearCartAsync())
         .unwrap()
-        .then(() => {
-          toast.success("Cart cleared successfully!");
-        })
-        .catch((error) => {
-          toast.error(error.message || "Failed to clear cart.");
-        });
+        .then(() => toast.success("Cart cleared successfully!"))
+        .catch(() => toast.error("Failed to clear cart."));
     }
-  };
+  }, [dispatch]);
 
-  // Handle checkout
-  const handleCheckout = () => {
-    navigate("/checkout");
-  };
+  // ✅ Handle checkout
+  const handleCheckout = useCallback(() => navigate("/checkout"), [navigate]);
 
-  // Display loading or error states
+  // ✅ Memoized total price
+  const formattedTotalPrice = useMemo(() => totalPrice.toFixed(2), [totalPrice]);
+
+  // ✅ Loading & Error States
   if (status === "loading") {
     return (
       <div className="loading-indicator">
@@ -85,7 +70,7 @@ const Cartsection = () => {
   }
 
   if (error) {
-    return <div className="error">Error: {error.message}</div>;
+    return <div className="error">Error: {error}</div>;
   }
 
   return (
@@ -95,28 +80,35 @@ const Cartsection = () => {
         {cartItems.length === 0 ? (
           <h2>Your cart is empty.</h2>
         ) : (
-          cartItems.map((item) => (
-            <div className="cart-item" key={item.id}>
+          cartItems.map(({ id, product, quantity }) => (
+            <div className="cart-item" key={id}>
               <img
-                src={item.product?.images?.[0]?.image || "/default-image.jpg"}
-                alt={item.product?.title}
-                loading="lazy"
-                onError={(e) => (e.target.src = "/default-image.jpg")}
+                  src={product?.images?.[0]?.image || "/default-image.jpg"}
+                  alt={product?.title || "Product"}
+                  loading="lazy"
+                  onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = "/default-image.jpg";
+                  }}
               />
+
               <div className="cart-details">
-                <h3>{item.product?.title}</h3>
-                <p>Price: ${item.product?.price}</p>
-                <p>Quantity: {item.quantity}</p>
+                <h3>{product?.title}</h3>
+                <p>Price: ${product?.price}</p>
+                <p>Quantity: {quantity}</p>
                 <div className="quantity-button">
                   <button
-                    onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}
-                    disabled={item.quantity <= 1}
+                    onClick={() => handleUpdateQuantity(id, quantity - 1)}
+                    disabled={quantity <= 1}
+                    aria-label="Decrease quantity"
                   >
                     -
                   </button>
-                  <button onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}>+</button>
+                  <button onClick={() => handleUpdateQuantity(id, quantity + 1)} aria-label="Increase quantity">
+                    +
+                  </button>
                 </div>
-                <button onClick={() => handleRemoveItem(item.id)} className="delete-button">
+                <button onClick={() => handleRemoveItem(id)} className="delete-button" aria-label="Remove item">
                   <i className="fa-solid fa-trash"></i>
                 </button>
               </div>
@@ -130,7 +122,7 @@ const Cartsection = () => {
           <div className="cart-totals">
             <h1>Cart Totals</h1>
             <h3>
-              Total Price: <span>$ {totalPrice.toFixed(2)}</span>
+              Total Price: <span>$ {formattedTotalPrice}</span>
             </h3>
           </div>
           <div className="cart-actions">

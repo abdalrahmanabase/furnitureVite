@@ -1,194 +1,122 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import api from "./api"; // adjust the path if needed
 
-const API_URL = "http://127.0.0.1:8000/api/carts";
+// Helper function to calculate total price
+const calculateTotalPrice = (cartItems) => 
+    cartItems.reduce((sum, item) => sum + (item.product?.price || 0) * item.quantity, 0);
 
-// ✅ Fetch cart items from the database
+// ✅ Fetch cart items
 export const fetchCartItemsAsync = createAsyncThunk(
     "cart/fetchCartItems",
-    async () => {
-      const response = await fetch(`${API_URL}`, {
-        headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` }
-      });
-      const data = await response.json();
-      return data.cart?.cart_items || []; // Extract cart_items properly
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await api.get("/carts");
+            return response.data.cart?.cart_items || [];
+        } catch (error) {
+            return rejectWithValue(error.response?.data || { message: "Failed to fetch cart items" });
+        }
     }
-  );
-  export const addToCartAsync = createAsyncThunk(
+);
+
+// ✅ Add to Cart
+export const addToCartAsync = createAsyncThunk(
     "cart/addToCart",
-    async ({ id, quantity }, { getState, rejectWithValue }) => {
-      try {
-        const token = localStorage.getItem("token");
-        if (!token) return rejectWithValue({ message: "User not authenticated" });
-  
-        const state = getState();
-        const existingItem = state.cart.cartItems.find((item) => item.id === id);
-  
-        if (existingItem) {
-          return rejectWithValue({ message: "Product is already in the cart!" });
+    async ({ productId, quantity }, { rejectWithValue }) => {
+        try {
+            const response = await api.post(`/carts/add/${productId}`, { quantity });
+            return response.data.cartItem; // Includes product info
+        } catch (error) {
+            return rejectWithValue(error.response?.data || { message: "Failed to add item to cart" });
         }
-  
-        // ✅ Send API request
-        const response = await axios.post(
-          `${API_URL}/add/${id}`,
-          { quantity }, // Quantity is sent correctly
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-  
-        // ✅ Check if the API response contains `cartItem`
-        if (!response.data.cartItem) {
-          return rejectWithValue({ message: response.data.message || "Unexpected response from server" });
-        }
-  
-        // ✅ Fetch product details
-        const productResponse = await axios.get(
-          `http://127.0.0.1:8000/api/products/${id}`,
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-  
-        const product = productResponse.data.product;
-  
-        return {
-          cartItem: {
-            id: response.data.cartItem.id,
-            title: product.title,
-            price: product.price,
-            image: product.image,
-            quantity: response.data.cartItem.quantity,
-          },
-        };
-      } catch (error) {
-        console.error("Add to cart error:", error.response?.data || error.message);
-        return rejectWithValue(error.response?.data || { message: "Failed to add item to cart" });
-      }
     }
-  );
-  
-// ✅ Remove item from cart in database
+);
+
+// ✅ Remove from Cart
 export const removeFromCartAsync = createAsyncThunk(
-  "cart/removeFromCart",
-  async (id, { rejectWithValue }) => {
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) return rejectWithValue({ message: "User not authenticated" });
-
-      await axios.delete(`/api/cartitems/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      return id; // Return the deleted item ID
-    } catch (error) {
-      return rejectWithValue(error.response?.data || { message: "Failed to remove item" });
+    "cart/removeFromCart",
+    async (cartItemId, { rejectWithValue }) => {
+        try {
+            await api.delete(`/cartitems/${cartItemId}`);
+            return cartItemId;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || { message: "Failed to remove item" });
+        }
     }
-  }
 );
 
-// ✅ Update item quantity in database
+// ✅ Update Quantity
 export const updateQuantityAsync = createAsyncThunk(
-  "cart/updateQuantity",
-  async ({ id, quantity }, { rejectWithValue }) => {
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) return rejectWithValue({ message: "User not authenticated" });
-
-      const response = await axios.put(
-        `/api/cartitems/${id}`,
-        { quantity },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-
-      return { id: response.data.cartItem.id, quantity: response.data.cartItem.quantity };
-    } catch (error) {
-      return rejectWithValue(error.response?.data || { message: "Failed to update quantity" });
+    "cart/updateQuantity",
+    async ({ cartItemId, quantity }, { rejectWithValue }) => {
+        try {
+            const response = await api.put(`/cartitems/${cartItemId}`, { quantity });
+            return response.data.cartItem;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || { message: "Failed to update quantity" });
+        }
     }
-  }
 );
 
+// ✅ Clear Cart
 export const clearCartAsync = createAsyncThunk(
     "cart/clearCart",
     async (_, { rejectWithValue }) => {
-      try {
-        const token = localStorage.getItem("token");
-        if (!token) return rejectWithValue({ message: "User not authenticated" });
-  
-        await axios.delete(`${API_URL}/clear`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-  
-        return []; // Return an empty array
-      } catch (error) {
-        return rejectWithValue(error.response?.data || { message: "Failed to clear cart" });
-      }
+        try {
+            await api.delete("/carts/clear");
+            return [];
+        } catch (error) {
+            return rejectWithValue(error.response?.data || { message: "Failed to clear cart" });
+        }
     }
-  );
-  
+);
 
+// ✅ Initial State
 const initialState = {
-  cartItems: [],
-  totalPrice: 0,
-  status: "idle", // 'idle', 'loading', 'succeeded', 'failed'
-  error: null,
+    cartItems: [],
+    totalPrice: 0,
+    status: "idle",
+    error: null,
 };
 
+// ✅ Slice
 const cartSlice = createSlice({
-  name: "cart",
-  initialState,
-  reducers: {},
-  extraReducers: (builder) => {
-    builder
-      // Handle fetching cart items
-      .addCase(fetchCartItemsAsync.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(fetchCartItemsAsync.fulfilled, (state, action) => {
-        state.cartItems = action.payload;
-        state.totalPrice = state.cartItems.reduce((sum, item) => sum + (item.product?.price || 0) * item.quantity, 0);
-        state.status = "succeeded";
-    })
-      .addCase(fetchCartItemsAsync.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.payload?.message || "Failed to fetch cart items";
-      })
-
-      // Handle adding an item to the cart
-      .addCase(addToCartAsync.fulfilled, (state, action) => {
-        if (!action.payload || !action.payload.cartItem) return;
-        const { id, title, price, image, quantity } = action.payload.cartItem;
-        const existingItem = state.cartItems.find((item) => item.id === id);
-        if (existingItem) {
-          existingItem.quantity += quantity;
-        } else {
-          state.cartItems.push({ id, title, price, image, quantity });
-        }
-        state.totalPrice = state.cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-      })
-
-      // Handle removing an item from the cart
-      .addCase(removeFromCartAsync.fulfilled, (state, action) => {
-        state.cartItems = state.cartItems.filter((item) => item.id !== action.payload);
-        state.totalPrice = state.cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-      })
-
-      .addCase(updateQuantityAsync.fulfilled, (state, action) => {
-        const { id, quantity } = action.payload;
-        const item = state.cartItems.find((item) => item.id === id);
-        if (item) {
-            item.quantity = quantity;
-        }
-    
-        // Recalculate total price correctly
-        state.totalPrice = state.cartItems.reduce((sum, item) => 
-            sum + (item.product?.price || 0) * item.quantity, 0
-        );
-    })
-    
-
-      // Handle clearing the entire cart
-      .addCase(clearCartAsync.fulfilled, (state) => {
-        state.cartItems = [];
-        state.totalPrice = 0;
-      });
-  },
+    name: "cart",
+    initialState,
+    reducers: {},
+    extraReducers: (builder) => {
+        builder
+            .addCase(fetchCartItemsAsync.pending, (state) => {
+                state.status = "loading";
+            })
+            .addCase(fetchCartItemsAsync.fulfilled, (state, action) => {
+                state.cartItems = action.payload;
+                state.totalPrice = calculateTotalPrice(state.cartItems);
+                state.status = "succeeded";
+            })
+            .addCase(fetchCartItemsAsync.rejected, (state, action) => {
+                state.status = "failed";
+                state.error = action.payload?.message;
+            })
+            .addCase(addToCartAsync.fulfilled, (state, action) => {
+                if (!action.payload) return;
+                state.cartItems.push(action.payload);
+                state.totalPrice = calculateTotalPrice(state.cartItems);
+            })
+            .addCase(removeFromCartAsync.fulfilled, (state, action) => {
+                state.cartItems = state.cartItems.filter(item => item.id !== action.payload);
+                state.totalPrice = calculateTotalPrice(state.cartItems);
+            })
+            .addCase(updateQuantityAsync.fulfilled, (state, action) => {
+                const updatedItem = action.payload;
+                const item = state.cartItems.find(item => item.id === updatedItem.id);
+                if (item) item.quantity = updatedItem.quantity;
+                state.totalPrice = calculateTotalPrice(state.cartItems);
+            })
+            .addCase(clearCartAsync.fulfilled, (state) => {
+                state.cartItems = [];
+                state.totalPrice = 0;
+            });
+    },
 });
 
 export default cartSlice.reducer;
