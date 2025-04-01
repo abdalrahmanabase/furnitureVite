@@ -8,7 +8,7 @@ export const fetchWishlistAsync = createAsyncThunk(
     try {
       const response = await api.get("/wishlist");
       // Fixed key here
-      return response.data.wishlist?.wishlistItems || [];
+      return response.data.wishlist?.wishlist_items || [];
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || "Failed to fetch wishlist.");
     }
@@ -20,17 +20,21 @@ export const toggleWishlistAsync = createAsyncThunk(
   "wishlist/toggleWishlist",
   async (product, { getState, rejectWithValue }) => {
     const wishlist = getState().wishlist.wishlist;
-    const isInWishlist = wishlist.some((item) => item.productId === product.id);
+
+    const isInWishlist = wishlist.some((item) => item.product_id === product.id);
+
     const url = `/wishlist/${isInWishlist ? "remove" : "add"}/${product.id}`;
 
     try {
       const response = await api.post(url);
       return { product, isInWishlist: !isInWishlist };
     } catch (error) {
+      console.error("Wishlist API error:", error.response?.data);
       return rejectWithValue(error.response?.data?.message || "Failed to update wishlist.");
     }
   }
 );
+
 
 // ✅ Wishlist Slice
 const wishlistSlice = createSlice({
@@ -60,14 +64,17 @@ const wishlistSlice = createSlice({
       .addCase(toggleWishlistAsync.fulfilled, (state, action) => {
         state.loading = false;
         const { product, isInWishlist } = action.payload;
+      
         if (isInWishlist) {
           state.wishlist.push({
-            productId: product.id,
-            product: product
+            id: Date.now(), // Temporary unique ID for UI
+            wishlist_id: 1, // Assuming a single wishlist per user
+            product_id: product.id,
+            product
           });
         } else {
           state.wishlist = state.wishlist.filter(
-            (item) => item.productId !== product.id
+            (item) => item.product_id !== product.id
           );
         }
       })

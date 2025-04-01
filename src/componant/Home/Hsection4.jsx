@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import api from "../../redux/api"; // Use the configured API instance
 import "./Hsection4.css";
 
 const Hsection4 = () => {
     const [blogs, setBlogs] = useState([]);
 
     useEffect(() => {
-        axios.get("/api/blogs")
+        api.get("/blogs") // Use the correct API instance
             .then(response => {
-                setBlogs(response.data.blogs.slice(0, 3)); // Get only the latest 3 blogs
+                setBlogs(response.data?.blogs?.slice(0, 3) || []); // Use optional chaining with a fallback
             })
-            .catch(error => console.error("Error fetching blogs:", error));
+            .catch(error => {
+                console.error("Error fetching blogs:", error);
+                setBlogs([]); // Prevent UI break if request fails
+            });
     }, []);
 
     return (
@@ -22,13 +25,13 @@ const Hsection4 = () => {
                 {blogs.length > 0 ? (
                     blogs.map(blog => (
                         <div className="blog" key={blog.id}>
-                            <img src={blog.image ? blog.image : "/imgs/default.png"} alt={blog.title} />
+                            <img src={blog.image || "/imgs/default.png"} alt={blog.title} />
                             <h3>{blog.title}</h3>
                             <p>
-                            <span><i className="fa-solid fa-user"></i> {blog.author}</span>
-                            <i className="fa-regular fa-calendar"></i> {new Date(blog.created_at).toLocaleDateString()}
+                                <span><i className="fa-solid fa-user"></i> {blog.author || "Unknown"}</span>
+                                <i className="fa-regular fa-calendar"></i> {blog.created_at ? new Date(blog.created_at).toLocaleDateString() : "N/A"}
                             </p>
-                            <button><Link to={`/blog`}>Read More</Link></button>
+                            <button><Link to={`/blog/${blog.id}`}>Read More</Link></button>
                         </div>
                     ))
                 ) : (

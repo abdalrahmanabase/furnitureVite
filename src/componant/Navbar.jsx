@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "../componant/Navbar.css";
 import { toast } from "react-toastify";
 
-const API_BASE = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000"; // ✅ dynamic API base
+const API_BASE = import.meta.env.VITE_API_URL; // ✅ dynamic API base
 
 const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

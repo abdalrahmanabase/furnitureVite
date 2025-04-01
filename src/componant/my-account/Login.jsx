@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../redux/authSlice";
-
-import axios from "axios";
 import { useDispatch } from "react-redux";
+import api from "../../redux/api"; // Import your custom api instance
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -15,7 +14,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    // تحقق من صحة البيانات قبل الإرسال
+    // Check if both fields are provided
     if (!email || !password) {
       setErrors({
         ...errors,
@@ -25,17 +24,17 @@ const Login = () => {
     }
 
     try {
-      const response = await axios.post("/api/login", {
+      // Use the api instance instead of axios directly
+      const response = await api.post("/login", {
         email,
         password,
       });
 
       if (response.data.token) {
         const token = response.data.token;
-        localStorage.setItem("token", token); // ✅ حفظ التوكن في localStorage
-        console.log("Token saved:", token);
+        localStorage.setItem("token", token); // Save token to localStorage
 
-        navigate("/"); // ✅ الانتقال بعد نجاح تسجيل الدخول
+        navigate("/"); // Redirect after successful login
       } else {
         setErrors({ ...errors, general: "Login failed. Please try again." });
       }

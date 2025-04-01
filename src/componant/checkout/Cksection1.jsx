@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../../redux/api"; // Import your custom api instance
 import { useSelector, useDispatch } from "react-redux";
 import { fetchCartItemsAsync } from "../../redux/cartSlice";
 import { toast, ToastContainer } from "react-toastify";
@@ -8,7 +8,7 @@ import "./Cksection1.css";
 import { Navigate, useNavigate } from "react-router-dom";
 
 const Cksection1 = () => {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.cartItems);
   const totalPrice = useSelector((state) => state.cart.totalPrice);
@@ -38,7 +38,7 @@ const Cksection1 = () => {
 
   const fetchCheckoutData = async () => {
     try {
-      const response = await axios.get("/api/checkout", {
+      const response = await api.get("checkout", {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
       setAddresses(response.data.addresses);
@@ -50,8 +50,8 @@ const Cksection1 = () => {
 
   const handleSelectAddress = async (id) => {
     try {
-      await axios.post(
-        "/api/checkout/select-address",
+      await api.post(
+        "checkout/select-address",
         { shipping_address_id: id },
         { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
       );
@@ -64,7 +64,7 @@ const Cksection1 = () => {
   const handleCreateAddress = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/api/shipping_addresses", newAddress, {
+      const response = await api.post("shipping_addresses", newAddress, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
       setAddresses([...addresses, response.data.address]);
@@ -80,26 +80,26 @@ const Cksection1 = () => {
       toast.error("Please select a shipping address before placing your order!");
       return;
     }
-  
+
     try {
-      await axios.post(
-        "/api/checkout/confirm-order",
+      await api.post(
+        "checkout/confirm-order",
         {},
         { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
       );
-      
+
       toast.success("Order confirmed successfully! Redirecting to home...");
-  
+
       dispatch(fetchCartItemsAsync());
-  
+
       setTimeout(() => {
         navigate("/");
-      }, 2000); 
+      }, 2000);
     } catch (error) {
       toast.error("Failed to confirm order!");
     }
   };
-  
+
   return (
     <div className="checkout-container">
       <ToastContainer position="top-right" autoClose={3000} />
@@ -160,10 +160,8 @@ const Cksection1 = () => {
         )}
 
         <h5>Total <span>${totalPrice.toFixed(2)}</span></h5>
-        <button onClick={handleConfirmOrder}  className="orderbutton">Place Order</button>
-        
+        <button onClick={handleConfirmOrder} className="orderbutton">Place Order</button>
       </div>
-      
     </div>
   );
 };

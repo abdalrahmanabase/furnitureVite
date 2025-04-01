@@ -97,7 +97,7 @@ const Spsection1 = () => {
     const openPopup = () => setIsPopupOpen(true);
     const closePopup = () => setIsPopupOpen(false);
 
-    const isInWishlist = product ? wishlist.some((item) => item.productId === product.id) : false;
+    const isInWishlist = product ? wishlist.some((item) => item.product_id === product.id) : false;
     const subtotal = (product?.price * quantity).toFixed(2);
 
     const viewCart = () => navigate('/cart');

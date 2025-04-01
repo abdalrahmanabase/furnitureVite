@@ -1,23 +1,21 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
+import api from "../../redux/api";  // Import the custom API instance
 import "../shop/Ssection1.css";
 
 const Ssection1 = () => {
     const [products, setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [categories, setCategories] = useState([]);
-    // const [brands, setBrands] = useState([]);
     const [searchInput, setSearchInput] = useState("");
     const [sortOption, setSortOption] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("");
-    // const [selectedBrand, setSelectedBrand] = useState("");
     const [loading, setLoading] = useState(true);
 
-    // Fetch products, categories, and brands
+    // Fetch products and categories
     useEffect(() => {
         setLoading(true);
-        axios.get("api/products") // Fetch products
+        api.get("products")  // Fetch products using the custom api instance
             .then((response) => {
                 setProducts(response.data.products);
                 setFilteredProducts(response.data.products);
@@ -28,20 +26,14 @@ const Ssection1 = () => {
                 setLoading(false);
             });
 
-        axios.get("api/categories") // Fetch categories
+        api.get("categories")  // Fetch categories using the custom api instance
             .then((response) => {
                 setCategories(response.data);
             })
             .catch((error) => console.error("Error fetching categories:", error));
-
-        // axios.get("api/brands") // Fetch brands
-        //     .then((response) => {
-        //         setBrands(response.data);
-        //     })
-        //     .catch((error) => console.error("Error fetching brands:", error));
     }, []);
 
-    // Function to update displayed products
+    // Function to update displayed products based on filters and sorting
     const updateProducts = () => {
         let updatedProducts = products.filter(product =>
             product.title.toLowerCase().includes(searchInput.toLowerCase())
@@ -50,10 +42,6 @@ const Ssection1 = () => {
         if (selectedCategory) {
             updatedProducts = updatedProducts.filter(product => product.category.name === selectedCategory);
         }
-
-        // if (selectedBrand) {
-        //     updatedProducts = updatedProducts.filter(product => product.brand.name === selectedBrand);
-        // }
 
         if (sortOption === "nameAsc") {
             updatedProducts.sort((a, b) => a.title.localeCompare(b.title));
@@ -87,17 +75,6 @@ const Ssection1 = () => {
                         ))}
                     </select>
                 </div>
-
-                {/* Brand Filter
-                <div className="filretdiv">
-                    <label>Brand: </label>
-                    <select value={selectedBrand} onChange={(e) => setSelectedBrand(e.target.value)}>
-                        <option value="">All Brands</option>
-                        {brands.map((brand) => (
-                            <option key={brand.id} value={brand.name}>{brand.name}</option>
-                        ))}
-                    </select>
-                </div> */}
 
                 {/* Sort Options */}
                 <div className="filretdiv">

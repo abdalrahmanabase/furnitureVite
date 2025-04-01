@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../../redux/api';  // Import the custom API instance
 import './Bsection1.css';
 import '../shop/Ssection1.css';
 
@@ -12,10 +12,9 @@ const Bsection1 = () => {
     const [selectedCategory, setSelectedCategory] = useState("");
     const [loading, setLoading] = useState(true);
 
-    const API = import.meta.env.VITE_API_URL; // ✅ use from env
 
     useEffect(() => {
-        axios.get(`${API}/blogs`)
+        api.get(`blogs`)  // Use the custom API instance here
             .then(response => {
                 setBlogs(response.data.blogs);
                 setFilteredBlogs(response.data.blogs);
@@ -26,7 +25,7 @@ const Bsection1 = () => {
                 setLoading(false);
             });
 
-        axios.get(`${API}/categories`)
+        api.get(`categories`)  // Use the custom API instance here
             .then(response => setCategories(response.data))
             .catch(error => console.error("Error fetching categories:", error));
     }, []);
