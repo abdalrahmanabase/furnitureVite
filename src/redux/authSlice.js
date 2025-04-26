@@ -1,27 +1,17 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-
+import api from "./api";
 // Register User Async Function
 export const registerUser = createAsyncThunk(
   "auth/registerUser",
   async (userData, { rejectWithValue }) => {
     try {
-      const res = await fetch("/api/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(userData),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        return rejectWithValue(data.errors || "Registration failed");
+      const res = await api.post("/register", userData); 
+      if (!res.data.token) {
+        return rejectWithValue("Registration failed");
       }
 
-      if (data.token) {
-        localStorage.setItem("token", data.token);
-      }
-
-      return data.token;
+      localStorage.setItem("token", res.data.token);
+      return res.data.token; // Return token
     } catch (error) {
       return rejectWithValue("Something went wrong!");
     }
